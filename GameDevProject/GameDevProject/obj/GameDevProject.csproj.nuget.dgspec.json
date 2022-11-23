@@ -1,18 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "D:\\School\\22-23\\Game Development\\Project\\GameDevProject\\GameDevProject\\GameDevProject.csproj": {}
+    "C:\\Users\\Ignou\\Desktop\\School\\22-23\\Game Development\\GameDevProject\\GameDevProject\\GameDevProject\\GameDevProject.csproj": {}
   },
   "projects": {
-    "D:\\School\\22-23\\Game Development\\Project\\GameDevProject\\GameDevProject\\GameDevProject.csproj": {
+    "C:\\Users\\Ignou\\Desktop\\School\\22-23\\Game Development\\GameDevProject\\GameDevProject\\GameDevProject\\GameDevProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\School\\22-23\\Game Development\\Project\\GameDevProject\\GameDevProject\\GameDevProject.csproj",
+        "projectUniqueName": "C:\\Users\\Ignou\\Desktop\\School\\22-23\\Game Development\\GameDevProject\\GameDevProject\\GameDevProject\\GameDevProject.csproj",
         "projectName": "GameDevProject",
-        "projectPath": "D:\\School\\22-23\\Game Development\\Project\\GameDevProject\\GameDevProject\\GameDevProject.csproj",
+        "projectPath": "C:\\Users\\Ignou\\Desktop\\School\\22-23\\Game Development\\GameDevProject\\GameDevProject\\GameDevProject\\GameDevProject.csproj",
         "packagesPath": "C:\\Users\\Ignou\\.nuget\\packages\\",
-        "outputPath": "D:\\School\\22-23\\Game Development\\Project\\GameDevProject\\GameDevProject\\obj\\",
+        "outputPath": "C:\\Users\\Ignou\\Desktop\\School\\22-23\\Game Development\\GameDevProject\\GameDevProject\\GameDevProject\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
           "C:\\Users\\Ignou\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -68,7 +71,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
