@@ -21,10 +21,10 @@ namespace GameDevProject.States
         public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
-            var buttonTexture = _content.Load<Texture2D>("Controls/Button");
-            var buttonFont = _content.Load<SpriteFont>("Fonts/Font");
+            Texture2D buttonTexture = _content.Load<Texture2D>("Controls/Button");
+            SpriteFont buttonFont = _content.Load<SpriteFont>("Fonts/Font");
 
-            var newGameButton = new Button(buttonTexture, buttonFont)
+            Button newGameButton = new Button(buttonTexture, buttonFont)
             {
                 Position = new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2 - (buttonTexture.Width / 2), GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 2 - buttonTexture.Height),
                 Text = "New Game",

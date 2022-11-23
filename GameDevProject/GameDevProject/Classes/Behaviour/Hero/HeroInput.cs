@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace GameDevProject.Classes.Behaviour.Hero
 {
-    //test
     internal class HeroInput
     {
         Classes.Hero.Hero _hero;

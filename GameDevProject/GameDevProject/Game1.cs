@@ -168,10 +168,10 @@ namespace GameDevProject
                 if (hero.HitBox.Intersects(enemy.HitBox))
                 {
                     hero.TakeDamage();
-                    hero.Position = hero.KnockbackPosition;
+                    //hero.Position = hero.KnockbackPosition;
                     if (hero.Health <= 0)
                     {
-                        Exit(); // TODO deathscreen maken
+                        _currentState = new DeathState(this,GraphicsDevice,Content);//Exit(); // TODO deathscreen maken
                     }
                 }
                 if (Vector2.Distance(hero.Position, enemy.Position) < 500 && _currentState is GameState)
@@ -287,6 +287,9 @@ namespace GameDevProject
                     {
                         projectile.Draw(_spriteBatch, 0.1f);
                     }
+                    break;
+                case DeathState:
+                    _currentState.Draw(gameTime, _spriteBatch);
                     break;
             }
 
