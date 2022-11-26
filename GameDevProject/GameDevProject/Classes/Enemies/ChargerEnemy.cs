@@ -1,6 +1,9 @@
 ﻿using GameDevProject.Classes.Animations;
+using GameDevProject.Classes.Behaviour.Enemy;
+using GameDevProject.Classes.Behaviour.Enemy.Charger;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +15,16 @@ namespace GameDevProject.Classes.Enemies
     internal class ChargerEnemy : Enemy
     {
 
-        bool isCharging;
-        float timer = 0;
+        public bool isCharging;
+        public float timer = 0;
+        public ChargerAttack chargerAttack;
+         EnemyMove _enemyMove;
         public ChargerEnemy(Texture2D texture, int x, int y) : base(texture, x, y)
         {
             isCharging = false;
             HitBox = new Rectangle((int)Position.X, (int)Position.Y, 70, 100);
-
+            chargerAttack = new ChargerAttack(this);
+            _enemyMove = new EnemyMove(this);
         }
         public override void Update(GameTime gameTime)
         {
@@ -33,24 +39,26 @@ namespace GameDevProject.Classes.Enemies
             //{
             //    Speed.X = 0;
             //}
+            //_enemyMove.Move();
             if (isCharging)
             {
-                Attack(gameTime);
+                chargerAttack.Attack(gameTime);
             }
             Position += Speed;
             /*if (Speed.Y < 10)
             {
                 Speed.Y += 0f;
             }*/
+
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (Health > 0)
             {
-                spriteBatch.Draw(texture, Position, runningAnimation.CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), new Vector2(2.5f, 2.5f), spriteOrientation, 1);
+                spriteBatch.Draw(texture, Position, runningAnimation.CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), new Vector2(2.5f, 2.5f), SpriteOrientation, 1);
             }
         }
-        public override void Attack(GameTime gameTime)
+        /*public override void Attack(GameTime gameTime)
         {
             isCharging = true;
             if (timer <= 10000) // timer aanpassen om duur charge te veranderen
@@ -64,7 +72,7 @@ namespace GameDevProject.Classes.Enemies
                 isCharging = false;
             }
             timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-        }
+        }*/
         public override void CreateAnimations()
         {
             // base.CreateAnimations();

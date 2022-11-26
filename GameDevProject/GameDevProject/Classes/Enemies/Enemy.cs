@@ -17,20 +17,20 @@ namespace GameDevProject.Classes.Enemies
         Animation animation;
         public int Health = 1;
         public Rectangle HitBox;
-        public SpriteEffects spriteOrientation;
+        public SpriteEffects SpriteOrientation { get; set; }
         public Vector2 Position;
         public Vector2 Speed;
         //float patrolTimer = 0;
         public int directionModifier = 1;
         public Animation runningAnimation;
         public Texture2D ProjectileSprite;
-        public List<Projectile> Projectiles = new List<Projectile>();
+        //public List<Projectile> Projectiles = new List<Projectile>();
         public bool IsPatrolling;
         //public bool hasHitWall;
         //public bool hasHitRWall;
         //public int BaseSpeed;
         public bool IsAttacking;
-        internal Animation _currentAnimation;
+        public Animation _currentAnimation;
         public Enemy(Texture2D texture, int x, int y)
         {
             this.texture = texture;
@@ -39,7 +39,7 @@ namespace GameDevProject.Classes.Enemies
             //animation.GetFramesFromTextureProperties(texture.Width, texture.Height, 5, 2);
             Position = new Vector2(x, y);
             Speed = new Vector2(5, 0);
-            spriteOrientation = SpriteEffects.None;
+            SpriteOrientation = SpriteEffects.None;
             HitBox = new Rectangle((int)Position.X, (int)Position.Y, 76, 76);
             //ProjectileSprite = projectile;
             IsPatrolling = true;
@@ -106,7 +106,7 @@ namespace GameDevProject.Classes.Enemies
                 directionModifier = -1;
                 Position.X = Position.X - 15;
                 //Speed.X = -5; // = new Vector2(-5, 0);
-                spriteOrientation = SpriteEffects.FlipHorizontally;
+                SpriteOrientation = SpriteEffects.FlipHorizontally;
 
             }
             if (HitBox.TouchRightOf(newRectangle))
@@ -114,7 +114,7 @@ namespace GameDevProject.Classes.Enemies
                 Position.X = Position.X + 10;//+ newRectangle.Width;
                 directionModifier = 1;
                 //Speed.X = 5;
-                spriteOrientation = SpriteEffects.None;
+                SpriteOrientation = SpriteEffects.None;
                 //Position.X = Position.X + 15;
             }
             if (HitBox.TouchBottomOf(newRectangle))

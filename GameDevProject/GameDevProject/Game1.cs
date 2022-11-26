@@ -176,12 +176,21 @@ namespace GameDevProject
                 }
                 if (Vector2.Distance(hero.Position, enemy.Position) < 500 && _currentState is GameState)
                 {
-                    enemy.Attack(gameTime);
+                    if (enemy is RangedEnemy)
+                    {
+                        RangedEnemy ranged = enemy as RangedEnemy;
+                        ranged.enemyAttack.Shoot(ranged.ProjectileSprite);
+                    }
+                    if (enemy is ChargerEnemy)
+                    {
+                        ChargerEnemy charger = enemy as ChargerEnemy;
+                        charger.chargerAttack.Attack(gameTime);
+                    }
                     //enemy.IsAttacking = true;
                 }
                 if (enemy is RangedEnemy)
                 {
-                    foreach (var projectile in enemy.Projectiles)
+                    foreach (var projectile in (enemy as RangedEnemy).Projectiles)
                     {
                         if (hero.HitBox.Intersects(projectile.HitBox))
                         {

@@ -18,7 +18,7 @@ namespace GameDevProject.Classes.Behaviour.Hero
         {
             if (_hero.isAttacking)
             {
-                _hero.currentAnimation = _hero.attackingAnimation;
+                _hero.currentAnimation = _hero.AttackingAnimation;
             }
             else if (_hero.hasJumped)
             {

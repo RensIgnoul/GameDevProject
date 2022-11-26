@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameDevProject.Classes.Behaviour.General;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,8 @@ namespace GameDevProject.Classes.Behaviour.Hero
     internal class HeroInput
     {
         Classes.Hero.Hero _hero;
-        HeroAttack _attacker;
-        public HeroInput(Classes.Hero.Hero hero, HeroAttack attacker)
+        RangedAttack _attacker;
+        public HeroInput(Classes.Hero.Hero hero, RangedAttack attacker)
         {
             _hero = hero;
             _attacker = attacker;

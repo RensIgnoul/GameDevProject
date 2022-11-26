@@ -33,9 +33,12 @@ namespace GameDevProject.Classes.LevelDesign
                 enemy.Draw(spriteBatch);
                 if (enemy.Health > 0)
                 {
-                    foreach (var projectile in enemy.Projectiles)
+                    if (enemy is RangedEnemy)
                     {
-                        projectile.Draw(spriteBatch, 2f);//0.1f);
+                        foreach (var projectile in (enemy as RangedEnemy).Projectiles)
+                        {
+                            projectile.Draw(spriteBatch, 2f);//0.1f);
+                        }
                     }
                 }
             }

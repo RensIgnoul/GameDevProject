@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameDevProject.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,8 @@ namespace GameDevProject.Classes.Behaviour.Hero
 {
     internal class HeroAttack
     {
-        Classes.Hero.Hero _hero;
-        public HeroAttack(Classes.Hero.Hero hero)
+        IRangedAttacker _hero;
+        public HeroAttack(IRangedAttacker hero)
         {
             _hero = hero;
         }
@@ -26,7 +27,7 @@ namespace GameDevProject.Classes.Behaviour.Hero
             {
                 newProjectile.Speed = new Vector2(-5, 0);
             }
-            newProjectile.Position = new Vector2(_hero.Position.X + _hero.HitBox.Width, _hero.HitBox.Y + _hero.HitBox.Height / 6) + newProjectile.Speed * 5;
+            newProjectile.Position = new Vector2((_hero as Classes.Hero.Hero).Position.X + (_hero as Classes.Hero.Hero).HitBox.Width, (_hero as Classes.Hero.Hero).HitBox.Y + (_hero as Classes.Hero.Hero).HitBox.Height / 6) + newProjectile.Speed * 5;
 
 
             newProjectile.IsVisible = true;

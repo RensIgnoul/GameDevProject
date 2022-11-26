@@ -9,10 +9,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GameDevProject.Classes.Behaviour.General;
 
 namespace GameDevProject.Classes.Hero
 {
-    internal class Hero : IGameObject, IMovable
+    internal class Hero : IGameObject, IMovable, IRangedAttacker
     {
         public Texture2D texture;
         private IInputReader inputReader;
@@ -21,7 +22,7 @@ namespace GameDevProject.Classes.Hero
         public Rectangle HitBox;
         internal Color color;
 
-        public SpriteEffects SpriteOrientation = SpriteEffects.None;
+        //public SpriteEffects SpriteOrientation = SpriteEffects.None;
         internal bool hasJumped = false;
         internal Vector2 position;
         public Vector2 Position
@@ -31,12 +32,15 @@ namespace GameDevProject.Classes.Hero
         }
         public Vector2 KnockbackPosition { get; set; }
 
-        public List<Projectile> Projectiles = new List<Projectile>();
+        //public List<Projectile> Projectiles = new List<Projectile>();
         KeyboardState pastKey;
         // public Vector2 Position { get; set; }
         public Vector2 Speed { get; set; }
         public IInputReader InputReader { get; set; }
         public int Health { get; set; }
+        public List<Projectile> Projectiles { get; set; }
+        public SpriteEffects SpriteOrientation {get; set; }
+        public bool isAttacking { get; set; }
 
         //////////////////////////
         // Testing animations   //
@@ -45,18 +49,24 @@ namespace GameDevProject.Classes.Hero
         internal Animation currentAnimation;
         internal Animation runningAnimation;
         internal Animation jumpingAnimation;
-        internal Animation attackingAnimation;
-        internal bool isAttacking;
+        public Animation AttackingAnimation { get; set; }
+        //internal bool isAttacking;
         float attackTimer = 0;
         public Texture2D ProjectileSprite;
         public bool IsSpotted = false;
-        HeroAttack heroAttack;
-        HeroMove heroMove;
-        HeroInput heroInput;
-        HeroAnimationCreator heroAnimationCreator;
-        HeroAnimationPicker heroAnimationPicker;
-        HeroAnimationConfiguration heroAnimationConfigurator;
+        RangedAttack _heroAttack;
+        HeroMove _heroMove;
+        HeroInput _heroInput;
+        HeroAnimationCreator _heroAnimationCreator;
+        HeroAnimationPicker _heroAnimationPicker;
+        RangedAnimation _heroAnimationConfigurator;
+        HeroAttackUpdate _heroAttackUpdate;
         // TODO REFACTOR ANIMATIONS? Dictionary misschien?
+
+        /// <summary>
+        /// TESTING INTERFACE RANGED ATTACK
+        /// </summary>
+        public Hero() { }
         public Hero(Texture2D texture, IInputReader inputReader, Texture2D projectile)
         {
             this.texture = texture;
@@ -95,18 +105,20 @@ namespace GameDevProject.Classes.Hero
             Health = 3;
             isAttacking = false;
             ProjectileSprite = projectile;
-            heroAttack = new HeroAttack(this);
-            heroMove = new HeroMove(this);
-            heroInput = new HeroInput(this, heroAttack);
-            heroAnimationCreator = new HeroAnimationCreator(this);
-            heroAnimationCreator.CreateAnimations();
-            heroAnimationPicker = new HeroAnimationPicker(this);
-            heroAnimationConfigurator = new HeroAnimationConfiguration(this);
+            _heroAttack = new RangedAttack(this);
+            _heroMove = new HeroMove(this);
+            _heroInput = new HeroInput(this, _heroAttack);
+            _heroAnimationCreator = new HeroAnimationCreator(this);
+            _heroAnimationCreator.CreateAnimations();
+            _heroAnimationPicker = new HeroAnimationPicker(this);
+            _heroAnimationConfigurator = new RangedAnimation(this);
+            _heroAttackUpdate = new HeroAttackUpdate(this);
+            Projectiles = new List<Projectile>();
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            heroAnimationPicker.SetAnimation();
+            _heroAnimationPicker.SetAnimation();
 
             spriteBatch.Draw(texture, Position, currentAnimation.CurrentFrame.SourceRectangle, color, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteOrientation, 1);
         }
@@ -149,14 +161,14 @@ namespace GameDevProject.Classes.Hero
             runningAnimation.Update(gameTime);
             idleAnimation.Update(gameTime);
             jumpingAnimation.Update(gameTime);
-            attackingAnimation.Update(gameTime);
-            heroAnimationConfigurator.AttackConfiguration(gameTime);
+            AttackingAnimation.Update(gameTime);
+            _heroAnimationConfigurator.AttackConfiguration(gameTime,800);
 
 
             //Move();
-            UpdateProjectiles();
-            heroInput.Input(gameTime);
-            heroMove.Move();
+            _heroAttackUpdate.UpdateProjectiles();
+            _heroInput.Input(gameTime);
+            _heroMove.Move();
         }
         /*Position += velocity;
         if (velocity.Y < 10)
@@ -237,7 +249,7 @@ namespace GameDevProject.Classes.Hero
             }
         }
 
-        public void UpdateProjectiles()
+        /*public void UpdateProjectiles()
         {
             foreach (var projectile in Projectiles)
             {
@@ -257,7 +269,7 @@ namespace GameDevProject.Classes.Hero
                     i--;
                 }
             }
-        }
+        }*/
 
         /*public void Shoot(Texture2D texture)
         {
@@ -285,40 +297,51 @@ namespace GameDevProject.Classes.Hero
         {
             Health--;
         }
-        /*public void CreateAnimations()
+
+        public void Attack()
         {
-            List<Rectangle> runningFrames = new List<Rectangle>();
-            List<Rectangle> idleFrames = new List<Rectangle>();
-            List<Rectangle> jumpingFrames = new List<Rectangle>();
-            List<Rectangle> attackingFrames = new List<Rectangle>();
-            int frameWidth = 231;
+            throw new NotImplementedException();
+        }
 
-            idleAnimation = new Animation();
-            runningAnimation = new Animation();
-            jumpingAnimation = new Animation();
-            attackingAnimation = new Animation();
+        public void UpdateAttacks()
+        {
+            throw new NotImplementedException();
+        }
+
+        /*public void CreateAnimations()
+{
+   List<Rectangle> runningFrames = new List<Rectangle>();
+   List<Rectangle> idleFrames = new List<Rectangle>();
+   List<Rectangle> jumpingFrames = new List<Rectangle>();
+   List<Rectangle> attackingFrames = new List<Rectangle>();
+   int frameWidth = 231;
+
+   idleAnimation = new Animation();
+   runningAnimation = new Animation();
+   jumpingAnimation = new Animation();
+   attackingAnimation = new Animation();
 
 
-            for (int i = 0; i < 8 * frameWidth; i += frameWidth)
-            {
-                runningFrames.Add(new Rectangle(i, 576, frameWidth, 192));
-            }
-            for (int i = 0; i < 6 * frameWidth; i += frameWidth)
-            {
-                idleFrames.Add(new Rectangle(i, 192, frameWidth, 192));
-            }
-            for (int i = 0 * frameWidth; i < 2 * frameWidth; i += frameWidth)
-            {
-                jumpingFrames.Add(new Rectangle(i, 384, frameWidth, 192));
-            }
-            for (int i = 0 * frameWidth; i < 8 * frameWidth; i += frameWidth)
-            {
-                attackingFrames.Add(new Rectangle(i, 0, frameWidth, 192));
-            }
-            runningAnimation.AddFrameList(runningFrames);
-            idleAnimation.AddFrameList(idleFrames);
-            jumpingAnimation.AddFrameList(jumpingFrames);
-            attackingAnimation.AddFrameList(attackingFrames);
-        }*/
+   for (int i = 0; i < 8 * frameWidth; i += frameWidth)
+   {
+       runningFrames.Add(new Rectangle(i, 576, frameWidth, 192));
+   }
+   for (int i = 0; i < 6 * frameWidth; i += frameWidth)
+   {
+       idleFrames.Add(new Rectangle(i, 192, frameWidth, 192));
+   }
+   for (int i = 0 * frameWidth; i < 2 * frameWidth; i += frameWidth)
+   {
+       jumpingFrames.Add(new Rectangle(i, 384, frameWidth, 192));
+   }
+   for (int i = 0 * frameWidth; i < 8 * frameWidth; i += frameWidth)
+   {
+       attackingFrames.Add(new Rectangle(i, 0, frameWidth, 192));
+   }
+   runningAnimation.AddFrameList(runningFrames);
+   idleAnimation.AddFrameList(idleFrames);
+   jumpingAnimation.AddFrameList(jumpingFrames);
+   attackingAnimation.AddFrameList(attackingFrames);
+}*/
     }
 }

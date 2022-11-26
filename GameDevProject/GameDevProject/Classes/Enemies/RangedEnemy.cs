@@ -6,33 +6,54 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GameDevProject.Classes.Behaviour.Enemy;
+using GameDevProject.Classes.Behaviour.Enemy.Ranged;
+using GameDevProject.Classes.Behaviour.General;
+using SharpDX.Direct3D9;
+using RangedAttackUpdate = GameDevProject.Classes.Behaviour.Enemy.Ranged.RangedAttackUpdate;
+using GameDevProject.Interfaces;
 
 namespace GameDevProject.Classes.Enemies
 {
-    internal class RangedEnemy : Enemy
+    internal class RangedEnemy : Enemy, IRangedAttacker
     {
         public Texture2D ProjectileSprite;
         //public List<Projectile> Projectiles = new List<Projectile>();
         public bool IsPatrolling;
 
         float attackTimer = 0;
-        Animation attackingAnimation;
+        public Animation AttackingAnimation { get; set; }
+        EnemyMove _enemyMove;
+        public RangedAttack enemyAttack;
+        RangedAttackUpdate _enemyAttackUpdate;
+        RangedAnimation _rangedAnimation;
+
+        public List<Projectile> Projectiles { get; set; }
+        public bool isAttacking { get; set; }
+
         public RangedEnemy(Texture2D texture, int x, int y, Texture2D projectile) : base(texture, x, y)
         {
             ProjectileSprite = projectile;
             IsPatrolling = true;
             IsAttacking = false;
             HitBox = new Rectangle((int)Position.X, (int)Position.Y, 65, 65);
+            _enemyMove = new EnemyMove(this);
+            enemyAttack = new RangedAttack(this);
+            _enemyAttackUpdate = new RangedAttackUpdate(this);
+            _rangedAnimation = new RangedAnimation(this);
+            Projectiles = new List<Projectile>();
         }
 
         public override void Update(GameTime gameTime)
         {
             HitBox.X = (int)Position.X + 60;
             HitBox.Y = (int)Position.Y + 80;
+            //_enemyMove.Move();
             runningAnimation.Update(gameTime);
 
-            attackingAnimation.Update(gameTime);
-            if (IsAttacking)
+            AttackingAnimation.Update(gameTime);
+            _rangedAnimation.AttackConfiguration(gameTime,700);
+            /*if (IsAttacking)
             {
                 attackTimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                 if (attackTimer >= 700)
@@ -44,8 +65,8 @@ namespace GameDevProject.Classes.Enemies
             else
             {
                 attackingAnimation.counter = 0;
-            }
-            UpdateProjectiles();
+            }*/
+            _enemyAttackUpdate.UpdateProjectiles();
             Position += Speed;//*directionModifier;
             /*if (Speed.Y < 10)
             {
@@ -54,6 +75,7 @@ namespace GameDevProject.Classes.Enemies
             if (IsPatrolling)
             {*/
             Speed.X = 5 * directionModifier;
+            
             //}    
             _currentAnimation = runningAnimation;
         }
@@ -61,10 +83,10 @@ namespace GameDevProject.Classes.Enemies
         {
             if (Health > 0)
             {
-                spriteBatch.Draw(texture, Position, _currentAnimation.CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), new Vector2(2, 2), spriteOrientation, 1);
+                spriteBatch.Draw(texture, Position, _currentAnimation.CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), new Vector2(2, 2), base.SpriteOrientation, 1);
             }
         }
-        public override void Attack(GameTime gameTime)
+        /*public override void Attack(GameTime gameTime)
         {
             Speed.X = 0;
             _currentAnimation = attackingAnimation;
@@ -77,7 +99,7 @@ namespace GameDevProject.Classes.Enemies
             {
                 newProjectile.Speed = new Vector2(-5, 0);
             }
-            newProjectile.Position = new Vector2(Position.X + HitBox.Width, HitBox.Y /*+ (HitBox.Height / 10)*/) + newProjectile.Speed * 5;
+            newProjectile.Position = new Vector2(Position.X + HitBox.Width, HitBox.Y /*+ (HitBox.Height / 10)) + newProjectile.Speed * 5;
 
 
             newProjectile.IsVisible = true;
@@ -86,8 +108,8 @@ namespace GameDevProject.Classes.Enemies
                 Projectiles.Add(newProjectile);
                 IsAttacking = true;
             }
-        }
-        public void UpdateProjectiles()
+        }*/
+        /*public void UpdateProjectiles()
         {
             foreach (var projectile in Projectiles)
             {
@@ -107,7 +129,7 @@ namespace GameDevProject.Classes.Enemies
                     i--;
                 }
             }
-        }
+        }*/
 
         public override void CreateAnimations()
         {
@@ -119,7 +141,7 @@ namespace GameDevProject.Classes.Enemies
 
 
             runningAnimation = new Animation();
-            attackingAnimation = new Animation();
+            AttackingAnimation = new Animation();
 
 
             for (int i = 0; i < 8 * frameWidth; i += frameWidth)
@@ -139,7 +161,17 @@ namespace GameDevProject.Classes.Enemies
                 attackingFrames.Add(new Rectangle(i, 0, frameWidth, 100));
             }
             runningAnimation.AddFrameList(runningFrames);
-            attackingAnimation.AddFrameList(attackingFrames);
+            AttackingAnimation.AddFrameList(attackingFrames);
+        }
+
+        public void Attack()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateAttacks()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace GameDevProject.States
         private List<Component> _components;
         public DeathState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
         {
-            Texture2D deathButtonTexture = _content.Load<Texture2D>("Controls/Button");
+            Texture2D deathButtonTexture = _content.Load<Texture2D>("Controls/Button"); 
             SpriteFont buttonFont = _content.Load<SpriteFont>("Fonts/Font");
 
             Button deathButton = new Button(deathButtonTexture, buttonFont)

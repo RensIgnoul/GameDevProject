@@ -26,7 +26,7 @@ namespace GameDevProject.Classes.Behaviour.Hero
             _hero.idleAnimation = new Animation();
             _hero.runningAnimation = new Animation();
             _hero.jumpingAnimation = new Animation();
-            _hero.attackingAnimation = new Animation();
+            _hero.AttackingAnimation = new Animation();
 
 
             for (int i = 0; i < 8 * frameWidth; i += frameWidth)
@@ -48,7 +48,7 @@ namespace GameDevProject.Classes.Behaviour.Hero
             _hero.runningAnimation.AddFrameList(runningFrames);
             _hero.idleAnimation.AddFrameList(idleFrames);
             _hero.jumpingAnimation.AddFrameList(jumpingFrames);
-            _hero.attackingAnimation.AddFrameList(attackingFrames);
+            _hero.AttackingAnimation.AddFrameList(attackingFrames);
         }
     }
 }
