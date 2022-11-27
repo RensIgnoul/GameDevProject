@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameDevProject.Classes
+namespace GameDevProject.Classes.LevelDesign
 {
     internal class Tiles
     {

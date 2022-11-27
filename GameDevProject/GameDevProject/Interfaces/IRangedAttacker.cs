@@ -15,7 +15,7 @@ namespace GameDevProject.Interfaces
         public SpriteEffects SpriteOrientation { get; set; }
         public Animation AttackingAnimation { get; set; }
         public bool isAttacking { get; set; }
-        public void Attack();
-        public void UpdateAttacks();
+        private void Attack() { }
+        private void UpdateAttacks() { }
     }
 }

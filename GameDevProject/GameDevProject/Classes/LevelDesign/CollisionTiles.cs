@@ -7,14 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
-namespace GameDevProject.Classes
+namespace GameDevProject.Classes.LevelDesign
 {
     internal class CollisionTiles : Tiles
     {
         public CollisionTiles(int i, Rectangle newRectangle)
         {
             texture = Content.Load<Texture2D>("Tile" + i);
-            this.Rectangle = newRectangle;
+            Rectangle = newRectangle;
         }
     }
 }

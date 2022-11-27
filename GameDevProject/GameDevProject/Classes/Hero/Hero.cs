@@ -13,7 +13,7 @@ using GameDevProject.Classes.Behaviour.General;
 
 namespace GameDevProject.Classes.Hero
 {
-    internal class Hero : IGameObject, IMovable, IRangedAttacker
+    internal class Hero : IGameObject, /*IMovable,*/ IRangedAttacker
     {
         public Texture2D texture;
         private IInputReader inputReader;
@@ -24,7 +24,7 @@ namespace GameDevProject.Classes.Hero
 
         //public SpriteEffects SpriteOrientation = SpriteEffects.None;
         internal bool hasJumped = false;
-        internal Vector2 position;
+        private Vector2 position;
         public Vector2 Position
         {
             get { return position; }
@@ -35,8 +35,8 @@ namespace GameDevProject.Classes.Hero
         //public List<Projectile> Projectiles = new List<Projectile>();
         KeyboardState pastKey;
         // public Vector2 Position { get; set; }
-        public Vector2 Speed { get; set; }
-        public IInputReader InputReader { get; set; }
+        //public Vector2 Speed { get; set; }
+        //public IInputReader InputReader { get; set; }
         public int Health { get; set; }
         public List<Projectile> Projectiles { get; set; }
         public SpriteEffects SpriteOrientation {get; set; }
@@ -53,7 +53,7 @@ namespace GameDevProject.Classes.Hero
         //internal bool isAttacking;
         float attackTimer = 0;
         public Texture2D ProjectileSprite;
-        public bool IsSpotted = false;
+        //public bool IsSpotted = false;
         RangedAttack _heroAttack;
         HeroMove _heroMove;
         HeroInput _heroInput;
@@ -62,15 +62,10 @@ namespace GameDevProject.Classes.Hero
         RangedAnimation _heroAnimationConfigurator;
         HeroAttackUpdate _heroAttackUpdate;
         // TODO REFACTOR ANIMATIONS? Dictionary misschien?
-
-        /// <summary>
-        /// TESTING INTERFACE RANGED ATTACK
-        /// </summary>
-        public Hero() { }
         public Hero(Texture2D texture, IInputReader inputReader, Texture2D projectile)
         {
             this.texture = texture;
-            InputReader = inputReader;
+            //InputReader = inputReader;
             #region comment
             /*runningAnimation.AddFrame(new AnimationFrame(new Rectangle(0, 0, 231, 190)));
             runningAnimation.AddFrame(new AnimationFrame(new Rectangle(231, 0, 231, 190)));
@@ -98,7 +93,7 @@ namespace GameDevProject.Classes.Hero
             currentAnimation = idleAnimation;
             Position = new Vector2(0, 0);
             KnockbackPosition = new Vector2(Position.X - 100, Position.Y);
-            Speed = new Vector2(1, 1);
+            //Speed = new Vector2(1, 1);
             movementManager = new MovementManager();
             color = Color.White;
             HitBox = new Rectangle((int)Position.X, (int)Position.Y, 76, 76);//150, 210);
@@ -195,14 +190,14 @@ namespace GameDevProject.Classes.Hero
             }
         }*/
 
-        private void Move()
+        /*private void Move()
         {
             movementManager.Move(this);
-        }
-        public void ChangeInput(IInputReader inputReader)
+        }*/
+        /*public void ChangeInput(IInputReader inputReader)
         {
             this.inputReader = inputReader;
-        }
+        }*/
         /*private void Input(GameTime gameTime)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
@@ -298,12 +293,12 @@ namespace GameDevProject.Classes.Hero
             Health--;
         }
 
-        public void Attack()
+        private void Attack()
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateAttacks()
+        private void UpdateAttacks()
         {
             throw new NotImplementedException();
         }

@@ -31,7 +31,7 @@ namespace GameDevProject.Classes.Behaviour.Hero
             else _hero.velocity.X = 0f;
             if (Keyboard.GetState().IsKeyDown(Keys.Up) && _hero.hasJumped == false)
             {
-                _hero.position.Y -= 50f;
+                _hero.Position = new Vector2(_hero.Position.X, _hero.Position.Y - 50);//.Y -= 50f;
                 _hero.velocity.Y = -9f;
                 _hero.currentAnimation = _hero.jumpingAnimation;
                 _hero.hasJumped = true;
