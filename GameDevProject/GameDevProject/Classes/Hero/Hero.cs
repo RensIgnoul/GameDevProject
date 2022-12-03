@@ -13,13 +13,13 @@ using GameDevProject.Classes.Behaviour.General;
 
 namespace GameDevProject.Classes.Hero
 {
-    internal class Hero : IGameObject, /*IMovable,*/ IRangedAttacker
+    internal class Hero : IGameObject, /*IMovable,*/ IRangedAttacker, IUnit
     {
         public Texture2D texture;
         private IInputReader inputReader;
         private MovementManager movementManager;
         internal Vector2 velocity;
-        public Rectangle HitBox;
+        public Rectangle HitBox { get; set; }
         internal Color color;
 
         //public SpriteEffects SpriteOrientation = SpriteEffects.None;
@@ -33,13 +33,13 @@ namespace GameDevProject.Classes.Hero
         public Vector2 KnockbackPosition { get; set; }
 
         //public List<Projectile> Projectiles = new List<Projectile>();
-        KeyboardState pastKey;
+        //KeyboardState pastKey;
         // public Vector2 Position { get; set; }
         //public Vector2 Speed { get; set; }
         //public IInputReader InputReader { get; set; }
         public int Health { get; set; }
         public List<Projectile> Projectiles { get; set; }
-        public SpriteEffects SpriteOrientation {get; set; }
+        public SpriteEffects SpriteOrientation { get; set; }
         public bool isAttacking { get; set; }
 
         //////////////////////////
@@ -149,15 +149,16 @@ namespace GameDevProject.Classes.Hero
 
         public void Update(GameTime gameTime)
         {
-            HitBox.X = (int)Position.X + 76;
-            HitBox.Y = (int)Position.Y + 76;
+
+            HitBox/*.X*/ = new Rectangle((int)Position.X + 76,(int)Position.Y+76, HitBox.Width,HitBox.Height);
+            //HitBox.Y = (int)Position.Y + 76;
             KnockbackPosition = new Vector2(Position.X - 100, Position.Y);
             var temp = Position;
             runningAnimation.Update(gameTime);
             idleAnimation.Update(gameTime);
             jumpingAnimation.Update(gameTime);
             AttackingAnimation.Update(gameTime);
-            _heroAnimationConfigurator.AttackConfiguration(gameTime,800);
+            _heroAnimationConfigurator.AttackConfiguration(gameTime, 800);
 
 
             //Move();
@@ -225,7 +226,7 @@ namespace GameDevProject.Classes.Hero
         {
             if (HitBox.TouchTopOf(newRectangle))
             {
-                HitBox.Y = newRectangle.Y - HitBox.Height;
+                HitBox/*.Y*/ = new Rectangle(HitBox.X,newRectangle.Y - HitBox.Height,HitBox.Width,HitBox.Height);
                 velocity.Y = 0f;
                 currentAnimation = idleAnimation;
                 hasJumped = false;
@@ -295,12 +296,12 @@ namespace GameDevProject.Classes.Hero
 
         private void Attack()
         {
-            throw new NotImplementedException();
+            _heroAttack.Shoot(ProjectileSprite);
         }
 
         private void UpdateAttacks()
         {
-            throw new NotImplementedException();
+            _heroAttackUpdate.UpdateProjectiles();
         }
 
         /*public void CreateAnimations()

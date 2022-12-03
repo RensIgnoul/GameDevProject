@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace GameDevProject.Classes.Enemies
 {
-    internal class Enemy : IGameObject, IAnimation
+    internal abstract class Enemy : IGameObject, IAnimation, IUnit
     {
         //Random rng = new Random();
         internal Texture2D texture;
         Animation animation;
         public int Health = 1;
-        public Rectangle HitBox;
+        public Rectangle HitBox { get; set; }
         public SpriteEffects SpriteOrientation { get; set; }
-        public Vector2 Position;
+        public Vector2 Position { get; set; }
         public Vector2 Speed;
         //float patrolTimer = 0;
         public int directionModifier = 1;
@@ -98,20 +98,20 @@ namespace GameDevProject.Classes.Enemies
             if (HitBox.TouchTopOf(newRectangle))
             {
 
-                HitBox.Y = newRectangle.Y - (HitBox.Height + 1);
+                HitBox/*.Y*/ = new Rectangle(HitBox.X,newRectangle.Y - (HitBox.Height + 1),HitBox.Width,HitBox.Height);
             }
             if (HitBox.TouchLeftOf(newRectangle))
             {
                 //Position.X = Position.X - 5;
                 directionModifier = -1;
-                Position.X = Position.X - 15;
+                Position/*.X*/ = new Vector2(Position.X - 15,Position.Y);
                 //Speed.X = -5; // = new Vector2(-5, 0);
                 SpriteOrientation = SpriteEffects.FlipHorizontally;
 
             }
             if (HitBox.TouchRightOf(newRectangle))
             {
-                Position.X = Position.X + 10;//+ newRectangle.Width;
+                Position/*.X*/ = new Vector2(Position.X + 10,Position.Y);//+ newRectangle.Width;
                 directionModifier = 1;
                 //Speed.X = 5;
                 SpriteOrientation = SpriteEffects.None;

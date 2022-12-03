@@ -9,6 +9,9 @@ using GameDevProject.Classes.Enemies;
 using GameDevProject.Classes.Hero;
 using GameDevProject.Classes.LevelDesign;
 using GameDevProject.States;
+using GameDevProject.Interfaces;
+using GameDevProject.Classes.Factory;
+
 namespace GameDevProject
 {
     public class Game1 : Game
@@ -20,8 +23,10 @@ namespace GameDevProject
         private Texture2D _enemyTexture;
         private Texture2D _chargerTexture;
         private Texture2D _rangedTexture;
+        private Texture2D _arrowTexture;
+        private UnitFactory unitFactory;
         Texture2D blokTexture;
-        List<Enemy> enemies = new List<Enemy>();
+        List<IUnit> units = new List<IUnit>();
         Color heroColor = Color.White;
 
         bool attackable = true;
@@ -65,14 +70,17 @@ namespace GameDevProject
             _graphics.PreferredBackBufferHeight = 1080;
             _graphics.ApplyChanges();
             base.Initialize();
+            unitFactory = new UnitFactory();
             hero = new Hero(_heroTexture, new KeyboardReader(), Content.Load<Texture2D>("Projectiles/energy_ball"));
-            enemy1 = new ChargerEnemy(_chargerTexture, 1300, 405);//, Content.Load<Texture2D>("Projectiles/energy_ball"));
-            enemy2 = new RangedEnemy(_rangedTexture, 1400, 465, Content.Load<Texture2D>("Projectiles/arrow"));
-            enemies.Add(enemy1);
-            enemies.Add(enemy2);
-            _lvl1 = new Level(map, enemies);
-            _lvl2 = new Level(map2, new List<Enemy>());
-            _controlLevel = new Level(controlMap, new List<Enemy>());
+            //enemy1 = new ChargerEnemy(_chargerTexture, 1300, 405);//, Content.Load<Texture2D>("Projectiles/energy_ball"));
+            //enemy2 = new RangedEnemy(_rangedTexture, 1400, 465, Content.Load<Texture2D>("Projectiles/arrow"));
+            //this.units.Add(enemy1);
+            //this.units.Add(enemy2);
+            //this.units.Add(unitFactory.CreateUnit("CHARGER", 1300, 405, _chargerTexture));
+            this.units.Add(unitFactory.CreateUnit("RANGED", 1400, 465, _rangedTexture, _arrowTexture));
+            _lvl1 = new Level(map, this.units);
+            _lvl2 = new Level(map2, new List<IUnit>());
+            _controlLevel = new Level(controlMap, new List<IUnit>());
             _currentLevel = _controlLevel;// _lvl1;
         }
         // TODO SPAWNPOINT HERO AANPASSEN ZODAT MOVEMENT GEBLOKEERD KAN WORDEN IN TUSSENLEVEL
@@ -110,7 +118,7 @@ namespace GameDevProject
             _heroTexture = Content.Load<Texture2D>("PlayerCharacter/PlayerSpriteSheet");//"CharacterSheetExample");
             _rangedTexture = Content.Load<Texture2D>("Enemies/Ranged/spritesheet");
             _chargerTexture = Content.Load<Texture2D>("Enemies/Charger/_Run");
-
+            _arrowTexture = Content.Load<Texture2D>("Projectiles/arrow");
         }
 
         protected override void Update(GameTime gameTime)
@@ -123,27 +131,32 @@ namespace GameDevProject
             hero.Update(gameTime);
 
             _currentState.Update(gameTime);
-            for (int i = _currentLevel.enemies.Count - 1; i >= 0; i--)
+            for (int i = _currentLevel.Units.Count - 1; i >= 0; i--)
             {
-                enemies[i].Update(gameTime);
-                //enemies[i].UpdateProjectiles();
-                for (int j = hero.Projectiles.Count - 1; j >= 0; j--)
+                if (units[i] is Enemy)
                 {
-                    if (hero.Projectiles[j].HitBox.Intersects(enemies[i].HitBox))
+                    Enemy enemy = units[i] as Enemy;
+                
+                /*units[i]*/enemy.Update(gameTime);
+                    //enemies[i].UpdateProjectiles();
+                    for (int j = hero.Projectiles.Count - 1; j >= 0; j--)
                     {
-                        enemies[i].Health--;
-                        hero.Projectiles.RemoveAt(j);
-                    }
-                    if (enemies[i].Health == 0)
-                    {
-                        enemies.RemoveAt(i);
+                        if (hero.Projectiles[j].HitBox.Intersects(/*units[i]*/enemy.HitBox))
+                        {
+                            /*units[i]*/enemy.Health--;
+                            hero.Projectiles.RemoveAt(j);
+                        }
+                        if (/*units[i]*/enemy.Health == 0)
+                        {
+                            units.RemoveAt(i);
+                        }
                     }
                 }
             }
             foreach (var tile in _currentLevel.Map.CollisionTiles)
             {
                 hero.Collision(tile.Rectangle);
-                foreach (var enemy in enemies)
+                foreach (var enemy in units)
                 {
                     enemy.Collision(tile.Rectangle);
                 }
@@ -163,9 +176,9 @@ namespace GameDevProject
             pastKey = Keyboard.GetState();
             //hero.UpdateProjectiles();
 
-            foreach (var enemy in _currentLevel.enemies)
-            {
-                if (hero.HitBox.Intersects(enemy.HitBox))
+            foreach (var unit in _currentLevel.Units)
+            { 
+                if (hero.HitBox.Intersects(unit.HitBox))
                 {
                     hero.TakeDamage();
                     //hero.Position = hero.KnockbackPosition;
@@ -174,23 +187,23 @@ namespace GameDevProject
                         _currentState = new DeathState(this,GraphicsDevice,Content);//Exit(); // TODO deathscreen maken
                     }
                 }
-                if (Vector2.Distance(hero.Position, enemy.Position) < 500 && _currentState is GameState)
+                if (Vector2.Distance(hero.Position, unit.Position) < 500 && _currentState is GameState)
                 {
-                    if (enemy is RangedEnemy)
+                    if (unit is RangedEnemy)
                     {
-                        RangedEnemy ranged = enemy as RangedEnemy;
+                        RangedEnemy ranged = unit as RangedEnemy;
                         ranged.enemyAttack.Shoot(ranged.ProjectileSprite);
                     }
-                    if (enemy is ChargerEnemy)
+                    if (unit is ChargerEnemy)
                     {
-                        ChargerEnemy charger = enemy as ChargerEnemy;
+                        ChargerEnemy charger = unit as ChargerEnemy;
                         charger.chargerAttack.Attack(gameTime);
                     }
                     //enemy.IsAttacking = true;
                 }
-                if (enemy is RangedEnemy)
+                if (unit is RangedEnemy)
                 {
-                    foreach (var projectile in (enemy as RangedEnemy).Projectiles)
+                    foreach (var projectile in (unit as RangedEnemy).Projectiles)
                     {
                         if (hero.HitBox.Intersects(projectile.HitBox))
                         {

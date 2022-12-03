@@ -1,4 +1,4 @@
-﻿using GameDevProject.Classes;
+﻿using GameDevProject.Classes.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;

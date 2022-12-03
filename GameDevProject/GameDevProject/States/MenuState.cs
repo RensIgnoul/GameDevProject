@@ -7,9 +7,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameDevProject.Classes;
 using Button = GameDevProject.Controls.Button;
-using Component = GameDevProject.Classes.Component;
+using Component = GameDevProject.Classes.UI.Component;
 
 namespace GameDevProject.States
 {

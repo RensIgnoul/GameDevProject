@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameDevProject.Classes;
 using Button = GameDevProject.Controls.Button;
+using GameDevProject.Classes.UI;
 
 namespace GameDevProject.States
 {

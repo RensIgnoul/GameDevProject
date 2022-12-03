@@ -2,6 +2,7 @@
 using GameDevProject.Classes.Behaviour.Enemy;
 using GameDevProject.Classes.Behaviour.Enemy.Charger;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SharpDX.MediaFoundation;
 using System;
@@ -19,17 +20,19 @@ namespace GameDevProject.Classes.Enemies
         public float timer = 0;
         public ChargerAttack chargerAttack;
          EnemyMove _enemyMove;
+        
         public ChargerEnemy(Texture2D texture, int x, int y) : base(texture, x, y)
         {
             isCharging = false;
             HitBox = new Rectangle((int)Position.X, (int)Position.Y, 70, 100);
             chargerAttack = new ChargerAttack(this);
             _enemyMove = new EnemyMove(this);
+            
         }
         public override void Update(GameTime gameTime)
         {
-            HitBox.X = (int)Position.X + 110;
-            HitBox.Y = (int)Position.Y + 100;
+            HitBox/*.X*/ = new Rectangle((int)Position.X + 110, (int)Position.Y + 100,HitBox.Width,HitBox.Height);
+            //HitBox.Y = (int)Position.Y + 100;
             runningAnimation.Update(gameTime);
             //if (IsPatrolling)
             //{

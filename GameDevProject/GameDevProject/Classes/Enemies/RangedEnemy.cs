@@ -46,8 +46,8 @@ namespace GameDevProject.Classes.Enemies
 
         public override void Update(GameTime gameTime)
         {
-            HitBox.X = (int)Position.X + 60;
-            HitBox.Y = (int)Position.Y + 80;
+            HitBox/*.X*/ = new Rectangle((int)Position.X + 60, (int)Position.Y + 80,HitBox.Width,HitBox.Height);
+            //HitBox.Y = (int)Position.Y + 80;
             //_enemyMove.Move();
             runningAnimation.Update(gameTime);
 

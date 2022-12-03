@@ -13,11 +13,11 @@ namespace GameDevProject.Classes.LevelDesign
     class Level : IGameObject
     {
         public Map Map { get; set; }
-        public List<Enemy> enemies = new List<Enemy>();
-        public Level(Map map, List<Enemy> enemyList)
+        public List<IUnit> Units = new List<IUnit>();
+        public Level(Map map, List<IUnit> unitList)
         {
             Map = map;
-            enemies = enemyList;
+            Units = unitList;
         }
 
         public void Update(GameTime gameTime)
@@ -28,19 +28,24 @@ namespace GameDevProject.Classes.LevelDesign
         public void Draw(SpriteBatch spriteBatch)
         {
             Map.Draw(spriteBatch);
-            foreach (var enemy in enemies)
+            foreach (var unit in Units)
             {
-                enemy.Draw(spriteBatch);
-                if (enemy.Health > 0)
+                unit.Draw(spriteBatch);
+                if (unit is Enemy)
                 {
-                    if (enemy is RangedEnemy)
+                    Enemy enemy = unit as Enemy;
+                    if (enemy.Health > 0)
                     {
-                        foreach (var projectile in (enemy as RangedEnemy).Projectiles)
+                        if (unit is RangedEnemy)
                         {
-                            projectile.Draw(spriteBatch, 2f);//0.1f);
+                            foreach (var projectile in (unit as RangedEnemy).Projectiles)
+                            {
+                                projectile.Draw(spriteBatch, 2f);//0.1f);
+                            }
                         }
                     }
                 }
+                
             }
         }
     }
