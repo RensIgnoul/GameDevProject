@@ -37,6 +37,7 @@ namespace GameDevProject.Classes.Enemies
             //if (IsPatrolling)
             //{
             Speed.X = 5 * directionModifier;
+            Speed.Y = 0;
             //}
             //else
             //{

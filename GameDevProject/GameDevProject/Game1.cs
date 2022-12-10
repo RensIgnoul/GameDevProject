@@ -50,6 +50,8 @@ namespace GameDevProject
         Level _currentLevel;
         Level _controlLevel;
         Map controlMap = new Map();
+
+        Texture2D tiletest;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -76,8 +78,8 @@ namespace GameDevProject
             //enemy2 = new RangedEnemy(_rangedTexture, 1400, 465, Content.Load<Texture2D>("Projectiles/arrow"));
             //this.units.Add(enemy1);
             //this.units.Add(enemy2);
-            //this.units.Add(unitFactory.CreateUnit("CHARGER", 1300, 405, _chargerTexture));
-            this.units.Add(unitFactory.CreateUnit("RANGED", 1400, 465, _rangedTexture, _arrowTexture));
+            this.units.Add(unitFactory.CreateUnit("CHARGER", 700,100/*1300, 400*/, _chargerTexture));
+            this.units.Add(unitFactory.CreateUnit("RANGED", 1400, 455, _rangedTexture, _arrowTexture));
             _lvl1 = new Level(map, this.units);
             _lvl2 = new Level(map2, new List<IUnit>());
             _controlLevel = new Level(controlMap, new List<IUnit>());
@@ -88,14 +90,28 @@ namespace GameDevProject
         {
             blokTexture = new Texture2D(GraphicsDevice, 1, 1);
             Tiles.Content = Content;
-            map.Generate(new int[,]
+            /*map.Generate(new int[,]
             {
                 {0,0,0,0,0,0,0,0,1,1},
                 {0,1,0,0,0,1,0,0,0,1},
                 {0,0,0,1,2,2,2,0,0,1},
                 {0,0,1,2,2,2,2,2,1,1},
                 {1,1,2,2,2,2,2,2,2,1},
-            }, 200);
+            }, 200);*/
+            map.Generate(new int[,]
+            {
+                {1,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,2,2,2,1},
+                {0,1,0,0,0,1,0,0,0,1,1,1,2,2,2,2,2,2,2,1},
+                {0,0,0,1,2,2,2,0,0,1,1,1,2,2,2,2,2,2,2,1},
+                {0,0,1,2,2,2,2,2,1,1,1,1,2,2,2,2,2,2,2,1},
+                {1,1,2,2,2,2,2,2,2,1,1,1,2,2,2,2,2,2,2,1},
+                {0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,2,2,2,1},
+                {0,1,0,0,0,1,0,0,0,1,1,1,2,2,2,2,2,2,2,1},
+                {0,0,0,1,2,2,2,0,0,1,1,1,2,2,2,2,2,2,2,1},
+                {0,0,1,2,2,2,2,2,1,1,1,1,2,2,2,2,2,2,2,1},
+                {1,1,2,2,2,2,2,2,2,1,1,1,2,2,2,2,2,2,2,1},
+                {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+            }, 100);
             map2.Generate(new int[,]
             {
                 {0,0,0,0,0,0,0,0,1,1},
@@ -119,6 +135,8 @@ namespace GameDevProject
             _rangedTexture = Content.Load<Texture2D>("Enemies/Ranged/spritesheet");
             _chargerTexture = Content.Load<Texture2D>("Enemies/Charger/_Run");
             _arrowTexture = Content.Load<Texture2D>("Projectiles/arrow");
+
+            tiletest = Content.Load<Texture2D>("TileSet/DungeonTileSet");
         }
 
         protected override void Update(GameTime gameTime)
@@ -155,10 +173,10 @@ namespace GameDevProject
             }
             foreach (var tile in _currentLevel.Map.CollisionTiles)
             {
-                hero.Collision(tile.Rectangle);
+                hero.Collision(tile.DestinationRectangle);
                 foreach (var enemy in units)
                 {
-                    enemy.Collision(tile.Rectangle);
+                    enemy.Collision(tile.DestinationRectangle);
                 }
             }
             if (_nextState != null)
@@ -275,10 +293,10 @@ namespace GameDevProject
                 case GameState:
                     // _spriteBatch.Draw(Content.Load<Texture2D>("Projectile"), hero.HitBox, Color.Red);
                     hero.Draw(_spriteBatch);
-                    /* foreach (var enemy in _currentLevel.enemies)
+                     foreach (var enemy in _currentLevel.Units)
                      {
                          _spriteBatch.Draw(Content.Load<Texture2D>("Projectile"), enemy.HitBox, Color.Red);
-                     }*/
+                     }
                     if (_currentLevel == _lvl1)
                     {
                         _lvl1.Draw(_spriteBatch);

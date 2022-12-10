@@ -139,3 +139,5 @@ D:\School\22-23\Game Development\GameDevProject\GameDevProject\GameDevProject\ob
 D:\School\22-23\Game Development\GameDevProject\GameDevProject\GameDevProject\obj\Debug\net6.0-windows\GameDevProject.pdb
 D:\School\22-23\Game Development\GameDevProject\GameDevProject\GameDevProject\obj\Debug\net6.0-windows\GameDevProject.genruntimeconfig.cache
 D:\School\22-23\Game Development\GameDevProject\GameDevProject\GameDevProject\obj\Debug\net6.0-windows\ref\GameDevProject.dll
+D:\School\22-23\Game Development\GameDevProject\GameDevProject\GameDevProject\bin\Debug\net6.0-windows\Content\TileSet\DungeonTileSet.xnb
+D:\School\22-23\Game Development\GameDevProject\GameDevProject\GameDevProject\bin\Debug\net6.0-windows\Content\Projectile.xnb
