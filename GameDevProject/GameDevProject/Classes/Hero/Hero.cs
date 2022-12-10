@@ -241,7 +241,7 @@ namespace GameDevProject.Classes.Hero
             }
             if (HitBox.TouchBottomOf(newRectangle))
             {
-                velocity.Y += 0.8f;
+                velocity.Y = 5;
             }
         }
 

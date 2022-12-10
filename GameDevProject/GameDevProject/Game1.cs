@@ -100,8 +100,8 @@ namespace GameDevProject
             }, 200);*/
             map.Generate(new int[,]
             {
-                {1,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,2,2,2,1},
-                {0,1,0,0,0,1,0,0,0,1,1,1,2,2,2,2,2,2,2,1},
+                {1,1,1,1,1,1,1,0,1,1,1,1,2,2,2,2,2,2,2,1},
+                {0,0,0,0,0,1,0,0,0,1,1,1,2,2,2,2,2,2,2,1},
                 {0,0,0,1,2,2,2,0,0,1,1,1,2,2,2,2,2,2,2,1},
                 {0,0,1,2,2,2,2,2,1,1,1,1,2,2,2,2,2,2,2,1},
                 {1,1,2,2,2,2,2,2,2,1,1,1,2,2,2,2,2,2,2,1},
@@ -146,8 +146,8 @@ namespace GameDevProject
 
             // TODO: Add your update logic here
 
-            hero.Update(gameTime);
 
+            hero.Update(gameTime);
             _currentState.Update(gameTime);
             for (int i = _currentLevel.Units.Count - 1; i >= 0; i--)
             {
@@ -236,6 +236,7 @@ namespace GameDevProject
                 }
 
             }
+
             /*foreach (var projectile in enemy.Projectiles)
             {
                 if (hero.HitBox.Intersects(projectile.HitBox))
@@ -291,12 +292,12 @@ namespace GameDevProject
                     _currentLevel = _lvl2;
                     break;
                 case GameState:
-                    // _spriteBatch.Draw(Content.Load<Texture2D>("Projectile"), hero.HitBox, Color.Red);
+                    _spriteBatch.Draw(Content.Load<Texture2D>("Projectile"), hero.HitBox, Color.Red);
                     hero.Draw(_spriteBatch);
-                     foreach (var enemy in _currentLevel.Units)
+                    /* foreach (var enemy in _currentLevel.Units)
                      {
                          _spriteBatch.Draw(Content.Load<Texture2D>("Projectile"), enemy.HitBox, Color.Red);
-                     }
+                     }*/
                     if (_currentLevel == _lvl1)
                     {
                         _lvl1.Draw(_spriteBatch);
