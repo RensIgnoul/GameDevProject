@@ -19,19 +19,19 @@ namespace GameDevProject.Classes.Enemies
         public bool isCharging;
         public float timer = 0;
         public ChargerAttack chargerAttack;
-         EnemyMove _enemyMove;
+        // EnemyMove _enemyMove;
         
         public ChargerEnemy(Texture2D texture, int x, int y) : base(texture, x, y)
         {
             isCharging = false;
-            HitBox = new Rectangle((int)Position.X, (int)Position.Y, 70, 100);
+            HitBox = new Rectangle((int)Position.X, (int)Position.Y, 50, 75);
             chargerAttack = new ChargerAttack(this);
-            _enemyMove = new EnemyMove(this);
+        //    _enemyMove = new EnemyMove(this);
             
         }
         public override void Update(GameTime gameTime)
         {
-            HitBox/*.X*/ = new Rectangle((int)Position.X + 110, (int)Position.Y + 100,HitBox.Width,HitBox.Height);
+            HitBox/*.X*/ = new Rectangle((int)Position.X + 75, (int)Position.Y + 75,HitBox.Width,HitBox.Height);
             //HitBox.Y = (int)Position.Y + 100;
             runningAnimation.Update(gameTime);
             //if (IsPatrolling)
@@ -43,11 +43,12 @@ namespace GameDevProject.Classes.Enemies
             //{
             //    Speed.X = 0;
             //}
-            //_enemyMove.Move();
+
             if (isCharging)
             {
                 chargerAttack.Attack(gameTime);
             }
+            //_enemyMove.Move();
             Position += Speed;
             /*if (Speed.Y < 10)
             {
@@ -59,7 +60,7 @@ namespace GameDevProject.Classes.Enemies
         {
             if (Health > 0)
             {
-                spriteBatch.Draw(texture, Position, runningAnimation.CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), new Vector2(2.5f, 2.5f), SpriteOrientation, 1);
+                spriteBatch.Draw(texture, Position, runningAnimation.CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), new Vector2(1.8f,1.8f/*2.5f, 2.5f*/), SpriteOrientation, 1);
             }
         }
         /*public override void Attack(GameTime gameTime)

@@ -96,7 +96,7 @@ namespace GameDevProject.Classes.Hero
             //Speed = new Vector2(1, 1);
             movementManager = new MovementManager();
             color = Color.White;
-            HitBox = new Rectangle((int)Position.X, (int)Position.Y, 76, 76);//150, 210);
+            HitBox = new Rectangle((int)Position.X, (int)Position.Y, 57, 57);//150, 210); 76 = base height
             Health = 3;
             isAttacking = false;
             ProjectileSprite = projectile;
@@ -115,7 +115,7 @@ namespace GameDevProject.Classes.Hero
         {
             _heroAnimationPicker.SetAnimation();
 
-            spriteBatch.Draw(texture, Position, currentAnimation.CurrentFrame.SourceRectangle, color, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteOrientation, 1);
+            spriteBatch.Draw(texture, Position, currentAnimation.CurrentFrame.SourceRectangle, color, 0, new Vector2(0, 0), new Vector2(0.75f, 0.75f), SpriteOrientation, 1);
         }
 
         /*private void SetAnimation()
@@ -150,9 +150,9 @@ namespace GameDevProject.Classes.Hero
         public void Update(GameTime gameTime)
         {
 
-            HitBox/*.X*/ = new Rectangle((int)Position.X + 76,(int)Position.Y+76, HitBox.Width,HitBox.Height);
+            HitBox/*.X*/ = new Rectangle((int)Position.X + 57,(int)Position.Y+57, HitBox.Width,HitBox.Height);
             //HitBox.Y = (int)Position.Y + 76;
-            KnockbackPosition = new Vector2(Position.X - 100, Position.Y);
+            KnockbackPosition = new Vector2(Position.X - 10, Position.Y);
             var temp = Position;
             runningAnimation.Update(gameTime);
             idleAnimation.Update(gameTime);
@@ -226,14 +226,14 @@ namespace GameDevProject.Classes.Hero
         {
             if (HitBox.TouchTopOf(newRectangle))
             {
-                HitBox/*.Y*/ = new Rectangle(HitBox.X,newRectangle.Y - HitBox.Height,HitBox.Width,HitBox.Height);
+                HitBox/*.Y*/ = new Rectangle(HitBox.X,newRectangle.Y - HitBox.Height-1,HitBox.Width,HitBox.Height);
                 velocity.Y = 0f;
                 currentAnimation = idleAnimation;
                 hasJumped = false;
             }
             if (HitBox.TouchLeftOf(newRectangle))
             {
-                position.X = position.X - 15;//-newRectangle.Width;
+                position.X = position.X - 7;//-newRectangle.Width;
             }
             if (HitBox.TouchRightOf(newRectangle))
             {

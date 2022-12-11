@@ -23,7 +23,7 @@ namespace GameDevProject.Classes.Enemies
 
         float attackTimer = 0;
         public Animation AttackingAnimation { get; set; }
-        EnemyMove _enemyMove;
+        //EnemyMove _enemyMove;
         public RangedAttack enemyAttack;
         RangedAttackUpdate _enemyAttackUpdate;
         RangedAnimation _rangedAnimation;
@@ -37,7 +37,7 @@ namespace GameDevProject.Classes.Enemies
             IsPatrolling = true;
             IsAttacking = false;
             HitBox = new Rectangle((int)Position.X, (int)Position.Y, 65, 65);
-            _enemyMove = new EnemyMove(this);
+            //_enemyMove = new EnemyMove(this);
             enemyAttack = new RangedAttack(this);
             _enemyAttackUpdate = new RangedAttackUpdate(this);
             _rangedAnimation = new RangedAnimation(this);
@@ -48,7 +48,7 @@ namespace GameDevProject.Classes.Enemies
         {
             HitBox/*.X*/ = new Rectangle((int)Position.X + 60, (int)Position.Y + 80,HitBox.Width,HitBox.Height);
             //HitBox.Y = (int)Position.Y + 80;
-            //_enemyMove.Move();
+
             runningAnimation.Update(gameTime);
 
             AttackingAnimation.Update(gameTime);
@@ -67,6 +67,7 @@ namespace GameDevProject.Classes.Enemies
                 attackingAnimation.counter = 0;
             }*/
             _enemyAttackUpdate.UpdateProjectiles();
+            //_enemyMove.Move();
             Position += Speed;//*directionModifier;
             /*if (Speed.Y < 10)
             {
@@ -74,8 +75,9 @@ namespace GameDevProject.Classes.Enemies
             }
             if (IsPatrolling)
             {*/
+
             Speed.X = 5 * directionModifier;
-            
+
             //}    
             _currentAnimation = runningAnimation;
         }

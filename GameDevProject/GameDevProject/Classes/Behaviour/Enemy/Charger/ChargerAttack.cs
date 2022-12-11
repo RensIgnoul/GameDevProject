@@ -21,7 +21,7 @@ namespace GameDevProject.Classes.Behaviour.Enemy.Charger
             _enemy.isCharging = true;
             if (_enemy.timer <= 10000) // timer aanpassen om duur charge te veranderen
             {
-                _enemy.Speed.X = _enemy.Speed.X * 2;
+                _enemy.Speed = new Vector2(_enemy.Speed.X * 2, _enemy.Speed.Y);//.X = _enemy.Speed.X * 2;
 
             }
             if (_enemy.timer >= 20000) // cooldown op charge. er word geen rekening gehoudn met de duur van de charge)

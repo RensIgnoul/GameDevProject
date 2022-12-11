@@ -27,7 +27,7 @@ namespace GameDevProject.Classes.Behaviour.Hero
             {
                 newProjectile.Speed = new Vector2(-5, 0);
             }
-            newProjectile.Position = new Vector2((_hero as Classes.Hero.Hero).Position.X + (_hero as Classes.Hero.Hero).HitBox.Width, (_hero as Classes.Hero.Hero).HitBox.Y + (_hero as Classes.Hero.Hero).HitBox.Height / 6) + newProjectile.Speed * 5;
+            newProjectile.Position = new Vector2((_hero as Classes.Hero.Hero).Position.X + (_hero as Classes.Hero.Hero).HitBox.Width, (_hero as Classes.Hero.Hero).HitBox.Y + (_hero as Classes.Hero.Hero).HitBox.Height/5) + newProjectile.Speed * 5;
 
 
             newProjectile.IsVisible = true;

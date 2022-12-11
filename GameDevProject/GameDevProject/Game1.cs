@@ -26,7 +26,8 @@ namespace GameDevProject
         private Texture2D _arrowTexture;
         private UnitFactory unitFactory;
         Texture2D blokTexture;
-        List<IUnit> units = new List<IUnit>();
+        List<IUnit> unitsLevel1 = new List<IUnit>();
+        List<IUnit> unitsLevel2 = new List<IUnit>();
         Color heroColor = Color.White;
 
         bool attackable = true;
@@ -51,7 +52,7 @@ namespace GameDevProject
         Level _controlLevel;
         Map controlMap = new Map();
 
-        Texture2D tiletest;
+        Texture2D backgroundtest;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -78,9 +79,11 @@ namespace GameDevProject
             //enemy2 = new RangedEnemy(_rangedTexture, 1400, 465, Content.Load<Texture2D>("Projectiles/arrow"));
             //this.units.Add(enemy1);
             //this.units.Add(enemy2);
-            this.units.Add(unitFactory.CreateUnit("CHARGER", 700,100/*1300, 400*/, _chargerTexture));
-            this.units.Add(unitFactory.CreateUnit("RANGED", 1400, 455, _rangedTexture, _arrowTexture));
-            _lvl1 = new Level(map, this.units);
+            unitsLevel1.Add(unitFactory.CreateUnit("CHARGER", 500, 0/*1300, 400*/, _chargerTexture));
+            unitsLevel1.Add(unitFactory.CreateUnit("RANGED", 650, 385, _rangedTexture, _arrowTexture));
+            unitsLevel1.Add(unitFactory.CreateUnit("RANGED", 350, 680, _rangedTexture, _arrowTexture));
+            unitsLevel1.Add(unitFactory.CreateUnit("CHARGER", 1100, 825, _chargerTexture));
+            _lvl1 = new Level(map, unitsLevel1);
             _lvl2 = new Level(map2, new List<IUnit>());
             _controlLevel = new Level(controlMap, new List<IUnit>());
             _currentLevel = _controlLevel;// _lvl1;
@@ -88,7 +91,7 @@ namespace GameDevProject
         // TODO SPAWNPOINT HERO AANPASSEN ZODAT MOVEMENT GEBLOKEERD KAN WORDEN IN TUSSENLEVEL
         protected override void LoadContent()
         {
-            blokTexture = new Texture2D(GraphicsDevice, 1, 1);
+            // blokTexture = new Texture2D(GraphicsDevice, 1, 1);
             Tiles.Content = Content;
             /*map.Generate(new int[,]
             {
@@ -98,20 +101,42 @@ namespace GameDevProject
                 {0,0,1,2,2,2,2,2,1,1},
                 {1,1,2,2,2,2,2,2,2,1},
             }, 200);*/
+            /*map.Generate(new int[,]
+            {
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+                {0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,4},
+                {0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,2,1},
+                {2,2,2,5,5,1,2,0,3,5,1,1,1,2,0,0,0,0,0,0,0,0,0,0,4,1},
+                {2,1,2,0,0,2,0,0,0,0,3,5,2,0,0,0,0,0,0,0,0,0,2,2,1,1},
+                {2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,0,4,1},
+                {2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,3,2},
+                {2,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,4},
+                {2,0,0,3,5,2,0,0,0,0,0,3,5,5,5,5,2,0,0,0,2,2,2,2,0,4},
+                {2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,1,1,2,0,4},
+                {2,1,2,2,2,0,0,0,0,2,2,2,2,2,2,2,2,2,2,5,5,5,5,2,0,4},
+                {2,1,5,5,5,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4},
+                {2,2,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,2,2,2,2,0,0,4},
+                {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
+                {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+            }, 75);*/
             map.Generate(new int[,]
             {
-                {1,1,1,1,1,1,1,0,1,1,1,1,2,2,2,2,2,2,2,1},
-                {0,0,0,0,0,1,0,0,0,1,1,1,2,2,2,2,2,2,2,1},
-                {0,0,0,1,2,2,2,0,0,1,1,1,2,2,2,2,2,2,2,1},
-                {0,0,1,2,2,2,2,2,1,1,1,1,2,2,2,2,2,2,2,1},
-                {1,1,2,2,2,2,2,2,2,1,1,1,2,2,2,2,2,2,2,1},
-                {0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,2,2,2,1},
-                {0,1,0,0,0,1,0,0,0,1,1,1,2,2,2,2,2,2,2,1},
-                {0,0,0,1,2,2,2,0,0,1,1,1,2,2,2,2,2,2,2,1},
-                {0,0,1,2,2,2,2,2,1,1,1,1,2,2,2,2,2,2,2,1},
-                {1,1,2,2,2,2,2,2,2,1,1,1,2,2,2,2,2,2,2,1},
-                {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-            }, 100);
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19},
+                {0,0,0,0,0,17,18,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,19},
+                {0,0,0,17,1,16,12,1,2,3,4,5,6,4,12,13,14,11,10,7,8,9,0,0,17,20},
+                {1,2,3,16,20,20,21,0,23,20,20,20,20,21,0,0,0,0,0,0,0,0,0,0,19,20},
+                {20,20,21,0,0,25,0,0,0,0,23,20,21,0,0,0,0,0,0,0,0,0,24,28,29,20},
+                {20,21,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,24,28,29,28,21,0,24,20},
+                {25,0,0,0,0,0,0,30,0,0,0,0,0,0,0,0,24,28,21,0,0,0,0,0,23,20},
+                {26,0,0,0,24,28,29,28,29,24,28,29,28,29,28,29,28,21,0,0,0,0,0,0,0,25},
+                {27,0,0,24,21,0,0,0,0,0,0,24,28,29,24,28,22,0,0,0,24,28,29,22,0,26},
+                {31,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,24,28,29,28,29,0,27},
+                {31,28,29,31,22,0,0,0,0,24,28,29,28,29,28,29,28,29,28,29,28,29,28,21,0,25},
+                {31,28,29,31,28,29,28,31,28,28,21,0,0,0,0,0,0,0,0,0,0,0,0,0,0,26},
+                {31,22,0,0,0,0,0,0,0,0,0,0,0,24,22,0,0,0,0,24,28,29,22,0,0,27},
+                {28,29,28,29,28,31,29,28,29,30,31,24,0,24,28,29,28,29,28,29,28,29,28,29,28,29},
+                {20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20},
+            }, 75);
             map2.Generate(new int[,]
             {
                 {0,0,0,0,0,0,0,0,1,1},
@@ -135,8 +160,6 @@ namespace GameDevProject
             _rangedTexture = Content.Load<Texture2D>("Enemies/Ranged/spritesheet");
             _chargerTexture = Content.Load<Texture2D>("Enemies/Charger/_Run");
             _arrowTexture = Content.Load<Texture2D>("Projectiles/arrow");
-
-            tiletest = Content.Load<Texture2D>("TileSet/DungeonTileSet");
         }
 
         protected override void Update(GameTime gameTime)
@@ -151,22 +174,24 @@ namespace GameDevProject
             _currentState.Update(gameTime);
             for (int i = _currentLevel.Units.Count - 1; i >= 0; i--)
             {
-                if (units[i] is Enemy)
+                if (unitsLevel1[i] is Enemy)
                 {
-                    Enemy enemy = units[i] as Enemy;
-                
-                /*units[i]*/enemy.Update(gameTime);
+                    Enemy enemy = unitsLevel1[i] as Enemy;
+
+                    /*units[i]*/
+                    enemy.Update(gameTime);
                     //enemies[i].UpdateProjectiles();
                     for (int j = hero.Projectiles.Count - 1; j >= 0; j--)
                     {
                         if (hero.Projectiles[j].HitBox.Intersects(/*units[i]*/enemy.HitBox))
                         {
-                            /*units[i]*/enemy.Health--;
+                            /*units[i]*/
+                            enemy.Health--;
                             hero.Projectiles.RemoveAt(j);
                         }
                         if (/*units[i]*/enemy.Health == 0)
                         {
-                            units.RemoveAt(i);
+                            unitsLevel1.RemoveAt(i);
                         }
                     }
                 }
@@ -174,7 +199,7 @@ namespace GameDevProject
             foreach (var tile in _currentLevel.Map.CollisionTiles)
             {
                 hero.Collision(tile.DestinationRectangle);
-                foreach (var enemy in units)
+                foreach (var enemy in unitsLevel1)
                 {
                     enemy.Collision(tile.DestinationRectangle);
                 }
@@ -195,17 +220,17 @@ namespace GameDevProject
             //hero.UpdateProjectiles();
 
             foreach (var unit in _currentLevel.Units)
-            { 
+            {
                 if (hero.HitBox.Intersects(unit.HitBox))
                 {
                     hero.TakeDamage();
                     //hero.Position = hero.KnockbackPosition;
                     if (hero.Health <= 0)
                     {
-                        _currentState = new DeathState(this,GraphicsDevice,Content);//Exit(); // TODO deathscreen maken
+                        _currentState = new DeathState(this, GraphicsDevice, Content);//Exit(); // TODO deathscreen maken
                     }
                 }
-                if (Vector2.Distance(hero.Position, unit.Position) < 500 && _currentState is GameState)
+                if (Vector2.Distance(hero.Position, unit.Position) < 450 && _currentState is GameState && hero.Position.Y - unit.Position.Y > 25)
                 {
                     if (unit is RangedEnemy)
                     {
@@ -284,6 +309,7 @@ namespace GameDevProject
                     _currentState.Draw(gameTime, _spriteBatch);
                     break;
                 case LevelOneState:
+
                     _currentState = new GameState(this, GraphicsDevice, Content);
                     _currentLevel = _lvl1;
                     break;
@@ -292,20 +318,23 @@ namespace GameDevProject
                     _currentLevel = _lvl2;
                     break;
                 case GameState:
-                    _spriteBatch.Draw(Content.Load<Texture2D>("Projectile"), hero.HitBox, Color.Red);
-                    hero.Draw(_spriteBatch);
-                    /* foreach (var enemy in _currentLevel.Units)
-                     {
-                         _spriteBatch.Draw(Content.Load<Texture2D>("Projectile"), enemy.HitBox, Color.Red);
-                     }*/
+
+                    /*foreach (var enemy in _currentLevel.Units)
+                    {
+                        _spriteBatch.Draw(Content.Load<Texture2D>("Projectile"), enemy.HitBox, Color.Red);
+                    }*/
                     if (_currentLevel == _lvl1)
                     {
+                        _spriteBatch.Draw(Content.Load<Texture2D>("Backgrounds/backgroundLevelOne"),new Vector2(0,0),new Rectangle(0,0,1024,576),Color.White,0,new Vector2(0,0),1.875f,SpriteEffects.None,0);
                         _lvl1.Draw(_spriteBatch);
                     }
                     else if (_currentLevel == _lvl2)
                     {
                         _lvl2.Draw(_spriteBatch);
                     }
+                    //_spriteBatch.Draw(Content.Load<Texture2D>("Projectile"), hero.HitBox, Color.Red);
+                    hero.Draw(_spriteBatch);
+
                     _currentState.Draw(gameTime, _spriteBatch);
 
                     /*map.Draw(_spriteBatch);
