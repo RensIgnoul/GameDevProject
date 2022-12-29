@@ -21,17 +21,16 @@ namespace GameDevProject
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D _heroTexture;
-        private Texture2D _enemyTexture;
+
         private Texture2D _chargerTexture;
         private Texture2D _rangedTexture;
         private Texture2D _arrowTexture;
         private Texture2D _pickupTexture;
         private UnitFactory unitFactory;
         private PickupFactory pickupFactory;
-        Texture2D blokTexture;
+
         List<IUnit> unitsLevel1 = new List<IUnit>();
         List<IUnit> unitsLevel2 = new List<IUnit>();
-        Color heroColor = Color.White;
 
         // *****************
         private Hero hero;
@@ -43,7 +42,6 @@ namespace GameDevProject
 
         private State _currentState;
         private State _nextState;
-        // List<Projectile> projectiles = new List<Projectile>();
 
         ////////////////////////////////////
 
@@ -77,7 +75,7 @@ namespace GameDevProject
             base.Initialize();
             unitFactory = new UnitFactory();
             pickupFactory = new PickupFactory();
-            hero = new Hero(_heroTexture, new KeyboardReader(), Content.Load<Texture2D>("Projectiles/energy_ball"));
+            hero = new Hero(_heroTexture, Content.Load<Texture2D>("Projectiles/energy_ball"));
             //enemy1 = new ChargerEnemy(_chargerTexture, 1300, 405);//, Content.Load<Texture2D>("Projectiles/energy_ball"));
             //enemy2 = new RangedEnemy(_rangedTexture, 1400, 465, Content.Load<Texture2D>("Projectiles/arrow"));
             //this.units.Add(enemy1);
@@ -262,7 +260,7 @@ namespace GameDevProject
 
             foreach (var unit in _currentLevel.Units)
             {
-                if (hero.HitBox.Intersects(unit.HitBox) && hero.attackable)
+                if (hero.HitBox.Intersects(unit.HitBox))
                 {
                     hero.TakeDamage(gameTime);
                     //hero.Position = hero.KnockbackPosition;
@@ -289,7 +287,7 @@ namespace GameDevProject
                 {
                     foreach (var projectile in (unit as RangedEnemy).Projectiles)
                     {
-                        if (hero.HitBox.Intersects(projectile.HitBox) && hero.attackable)
+                        if (hero.HitBox.Intersects(projectile.HitBox) && hero.Attackable)
                         {
                             hero.TakeDamage(gameTime);
                             //hero.Position = hero.KnockbackPosition;

@@ -15,12 +15,12 @@ namespace GameDevProject.Classes.Hero
 {
     internal class Hero : IGameObject, /*IMovable,*/ IRangedAttacker, IUnit
     {
-        public Texture2D texture;
-        private IInputReader inputReader;
-        private MovementManager movementManager;
+        public Texture2D texture { get; set; }
+        //private IInputReader inputReader;
+        //private MovementManager movementManager;
         internal Vector2 velocity;
         public Rectangle HitBox { get; set; }
-        internal Color color;
+        internal Color Color;
 
         //public SpriteEffects SpriteOrientation = SpriteEffects.None;
         internal bool hasJumped = false;
@@ -44,17 +44,13 @@ namespace GameDevProject.Classes.Hero
         public SpriteEffects SpriteOrientation { get; set; }
         public bool isAttacking { get; set; }
 
-        //////////////////////////
-        // Testing animations   //
-        //////////////////////////
         internal Animation idleAnimation;
         internal Animation currentAnimation;
         internal Animation runningAnimation;
         internal Animation jumpingAnimation;
         public Animation AttackingAnimation { get; set; }
-        //internal bool isAttacking;
-        float attackTimer = 0;
-        public Texture2D ProjectileSprite;
+
+        public Texture2D ProjectileSprite { get; set; }
         //public bool IsSpotted = false;
         RangedAttack _heroAttack;
         HeroMove _heroMove;
@@ -64,11 +60,11 @@ namespace GameDevProject.Classes.Hero
         RangedAnimation _heroAnimationConfigurator;
         HeroAttackUpdate _heroAttackUpdate;
 
-        public bool attackable;
-        float timer = 0;
-        public int Score;
-        // TODO REFACTOR ANIMATIONS? Dictionary misschien?
-        public Hero(Texture2D texture, IInputReader inputReader, Texture2D projectile)
+        public bool Attackable { get; set; }
+        public bool CanAttack { get; set; }
+        public int Score { get; set; }
+
+        public Hero(Texture2D texture, Texture2D projectile)
         {
             this.texture = texture;
             //InputReader = inputReader;
@@ -101,8 +97,8 @@ namespace GameDevProject.Classes.Hero
             SpawnPosition = position;
             KnockbackPosition = new Vector2(Position.X - 100, Position.Y);
             //Speed = new Vector2(1, 1);
-            movementManager = new MovementManager();
-            color = Color.White;
+            //movementManager = new MovementManager();
+            Color = Color.White;
             HitBox = new Rectangle((int)Position.X, (int)Position.Y, 57, 57);//150, 210); 76 = base height
             Health = 3;
             isAttacking = false;
@@ -116,7 +112,8 @@ namespace GameDevProject.Classes.Hero
             _heroAnimationConfigurator = new RangedAnimation(this);
             _heroAttackUpdate = new HeroAttackUpdate(this);
             Projectiles = new List<Projectile>();
-            attackable = true;
+            Attackable = true;
+            CanAttack = false;
             Score = 0;
         }
 
@@ -124,7 +121,7 @@ namespace GameDevProject.Classes.Hero
         {
             _heroAnimationPicker.SetAnimation();
 
-            spriteBatch.Draw(texture, Position, currentAnimation.CurrentFrame.SourceRectangle, color, 0, new Vector2(0, 0), new Vector2(0.75f, 0.75f), SpriteOrientation, 1);
+            spriteBatch.Draw(texture, Position, currentAnimation.CurrentFrame.SourceRectangle, Color, 0, new Vector2(0, 0), new Vector2(0.75f, 0.75f), SpriteOrientation, 1);
         }
 
         /*private void SetAnimation()

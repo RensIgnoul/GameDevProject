@@ -59,8 +59,16 @@ namespace GameDevProject.States
         {
 
             foreach (var component in _components)
+            {
                 component.Draw(gameTime, spriteBatch);
+            }
+            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "Reach the end of a level to win", new Vector2(800, 950), Color.White);
+            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "Getting a score of 15 also automatically wins you the game", new Vector2(800, 975), Color.White);
 
+            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "Controls: ", new Vector2(1700, 950),Color.White);
+            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "Movement = Arrows", new Vector2(1700, 975), Color.White);
+            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "Arrow down = Block projectiles", new Vector2(1700, 1000), Color.White);
+            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "Shoot = Spacebar", new Vector2(1700, 1025), Color.White);
         }
 
         private void LoadGameButton_Click(object sender, EventArgs e)

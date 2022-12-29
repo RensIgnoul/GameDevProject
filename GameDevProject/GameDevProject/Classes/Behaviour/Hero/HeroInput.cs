@@ -36,10 +36,23 @@ namespace GameDevProject.Classes.Behaviour.Hero
                 _hero.currentAnimation = _hero.jumpingAnimation;
                 _hero.hasJumped = true;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))//&&pastKey.IsKeyUp(Keys.U/)
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && _hero.CanAttack)//&&pastKey.IsKeyUp(Keys.U/)
             {
                 _attacker.Shoot(_hero.ProjectileSprite);//Content.Load<Texture2D>("Projectiles/energy_ball"));
             }
+            if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            {
+                _hero.Attackable = false;
+                _hero.CanAttack = false;
+                _hero.Color = Color.Purple;
+            }
+            else
+            {
+                _hero.Attackable = true;
+                _hero.CanAttack = true;
+                _hero.Color = Color.White;
+            }
+
         }
     }
 }
