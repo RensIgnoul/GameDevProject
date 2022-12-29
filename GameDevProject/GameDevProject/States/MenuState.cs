@@ -12,9 +12,9 @@ using Component = GameDevProject.Classes.UI.Component;
 
 namespace GameDevProject.States
 {
+    // Deze class is over genomen van Oyyou (https://www.youtube.com/watch?v=76Mz7ClJLoE&t=377s&ab_channel=Oyyou)
     internal class MenuState : State
     {
-        // TODO Centreer de knoppen
         private List<Component> _components;
 
         public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)

@@ -10,14 +10,7 @@ using System.Diagnostics;
 
 namespace GameDevProject.Classes.LevelDesign
 {
-    /*internal class CollisionTiles : Tiles
-    {
-        public CollisionTiles(int i, Rectangle newRectangle)
-        {
-            texture = Content.Load<Texture2D>("Tile" + i);
-            DestinationRectangle = newRectangle;
-        }
-    }*/
+    // Deze class is gebaseerd op de code van Oyyou (https://www.youtube.com/watch?v=PKlHcxFAEk0&t=67s&ab_channel=Oyyou), aanpassingen werden gemaakt om alle Rectangles uit 1 sprite te halen
     internal class CollisionTiles : Tiles
     {
         public CollisionTiles(int i, int x, int y, Rectangle newRectangle)
@@ -125,53 +118,6 @@ namespace GameDevProject.Classes.LevelDesign
                     break;
 
             }
-            /*switch (i)
-            {
-                case 1:
-                    SourceRectangle = new Rectangle(32, 32, 16, 16);
-                    break;
-                case 2:
-                    SourceRectangle = new Rectangle(80, 32, 16, 16);
-                    break;
-                case 3:
-                    SourceRectangle = new Rectangle(96, 32, 16, 16);
-                    break;
-                case 4:
-                    SourceRectangle = new Rectangle(80, 48, 16, 16);
-                    break;
-                case 5:
-                    SourceRectangle = new Rectangle(96, 48, 16, 16);
-                    break;
-                case 6:
-                    SourceRectangle = new Rectangle(128, 16, 16, 16);
-                    break;
-                case 7:
-                    SourceRectangle = new Rectangle(144, 16, 16, 16);
-                    break;
-                case 8:
-                    SourceRectangle = new Rectangle(128, 32, 16, 16);
-                    break;
-                case 9:
-                    SourceRectangle = new Rectangle(144, 32, 16, 16);
-                    break;
-                case 10:
-                    SourceRectangle = new Rectangle(160, 80, 16, 16);
-                    break;
-                case 11:
-                    SourceRectangle = new Rectangle(192, 16, 16, 16);
-                    break;
-                case 12:
-                    SourceRectangle = new Rectangle(208, 16, 16, 16);
-                    break;
-                case 13:
-                    SourceRectangle = new Rectangle(192, 32, 16, 16);
-                    break;
-                case 14:
-                    SourceRectangle = new Rectangle(208, 32, 16, 16);
-                    break;
-
-
-            }*/
         }
     }
 }

@@ -18,6 +18,7 @@ namespace GameDevProject.Classes.Behaviour.Hero
             _hero = hero;
             _attacker = attacker;
         }
+        //De input methode is gebaseerd op de code van Oyyou (https://www.youtube.com/watch?v=l0WS5SvKdY4&t=867s&ab_channel=Oyyou), het schieten en blokken zijn volledig zelf geschreven;
         internal void Input(GameTime gameTime)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
@@ -31,14 +32,14 @@ namespace GameDevProject.Classes.Behaviour.Hero
             else _hero.velocity.X = 0f;
             if (Keyboard.GetState().IsKeyDown(Keys.Up) && _hero.hasJumped == false)
             {
-                _hero.Position = new Vector2(_hero.Position.X, _hero.Position.Y - 5);//.Y -= 50f;
-                _hero.velocity.Y = -9f;
+                _hero.Position = new Vector2(_hero.Position.X, _hero.Position.Y - 5);
+                _hero.velocity.Y = -8f;
                 _hero.currentAnimation = _hero.jumpingAnimation;
                 _hero.hasJumped = true;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) && _hero.CanAttack)//&&pastKey.IsKeyUp(Keys.U/)
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && _hero.CanAttack)
             {
-                _attacker.Shoot(_hero.ProjectileSprite);//Content.Load<Texture2D>("Projectiles/energy_ball"));
+                _attacker.Shoot(_hero.ProjectileSprite);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {

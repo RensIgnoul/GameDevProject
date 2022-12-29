@@ -8,49 +8,7 @@ using System.Threading.Tasks;
 
 namespace GameDevProject.Classes.LevelDesign
 {
-    /*internal class Map
-    {
-        private List<CollisionTiles> collisionTiles = new List<CollisionTiles>();
-        public List<CollisionTiles> CollisionTiles { get { return collisionTiles; } }
-
-        private int width, height;
-
-        public int Width
-        {
-            get { return width; }
-        }
-        public int Height
-        {
-            get { return height; }
-        }
-
-        public Map() { }
-
-        public void Generate(int[,] map, int size)
-        {
-            for (int i = 0; i < map.GetLength(1); i++)
-            {
-                for (int j = 0; j < map.GetLength(0); j++)
-                {
-                    int nr = map[j, i];
-
-                    if (nr > 0)
-                    {
-                        collisionTiles.Add(new CollisionTiles(nr, new Rectangle(i * size, j * size, size, size)));
-                    }
-                    width = (i + 1) * size;
-                    height = (j + 1) * size;
-                }
-            }
-        }
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            foreach (var tile in collisionTiles)
-            {
-                tile.Draw(spriteBatch);
-            }
-        }
-    }*/
+    //Deze class is overgenomen van Oyyou (https://www.youtube.com/watch?v=PKlHcxFAEk0&t=67s&ab_channel=Oyyou)
     internal class Map
     {
         private List<CollisionTiles> collisionTiles = new List<CollisionTiles>();
@@ -79,8 +37,8 @@ namespace GameDevProject.Classes.LevelDesign
                 for (int j = 0; j < map.GetLength(0); j++)
                 {
                     int nr = map[j, i];
-                    width = (i /*+ 1*/) * size;
-                    height = (j /**+ 1*/) * size;
+                    width = (i) * size;
+                    height = (j) * size;
                     if (nr == 50)
                     {
                         finishTiles.Add(new FinishTile(nr, width, height, new Rectangle(i * size, j * size, size, size)));
