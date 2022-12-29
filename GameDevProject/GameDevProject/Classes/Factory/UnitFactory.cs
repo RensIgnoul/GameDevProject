@@ -30,6 +30,10 @@ namespace GameDevProject.Classes.Factory
             {
                 return new RangedEnemy(texture, x, y, projectileTexture);
             }
+            if (unitType.ToUpper()=="BOSS")
+            {
+                return new BossEnemy(texture, x, y, projectileTexture);
+            }
             return null;
         }
     }

@@ -143,3 +143,5 @@ D:\School\22-23\Game Development\GameDevProject\GameDevProject\GameDevProject\bi
 D:\School\22-23\Game Development\GameDevProject\GameDevProject\GameDevProject\bin\Debug\net6.0-windows\Content\Projectile.xnb
 D:\School\22-23\Game Development\GameDevProject\GameDevProject\GameDevProject\bin\Debug\net6.0-windows\Content\TileSet\LevelOne\LevelOneTileSet.xnb
 D:\School\22-23\Game Development\GameDevProject\GameDevProject\GameDevProject\bin\Debug\net6.0-windows\Content\Backgrounds\backgroundLevelOne.xnb
+D:\School\22-23\Game Development\GameDevProject\GameDevProject\GameDevProject\bin\Debug\net6.0-windows\Content\Enemies\Boss\BossSpriteSheet.xnb
+D:\School\22-23\Game Development\GameDevProject\GameDevProject\GameDevProject\bin\Debug\net6.0-windows\Content\Pickups\PickUps.xnb

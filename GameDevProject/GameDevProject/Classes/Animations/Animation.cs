@@ -35,6 +35,7 @@ namespace GameDevProject.Classes.Animations
         public void Update(GameTime gameTime)
         {
             CurrentFrame = frames[counter];
+            
             secondCounter += gameTime.ElapsedGameTime.TotalSeconds;
             int fps = 10;
 

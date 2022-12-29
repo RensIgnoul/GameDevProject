@@ -76,13 +76,13 @@ namespace GameDevProject.Classes.LevelDesign
                     SourceRectangle = new Rectangle(127, 349, 17, 18);
                     break;
                 case 17:
-                    SourceRectangle = new Rectangle(126,336, 18, 19);
+                    SourceRectangle = new Rectangle(126, 336, 18, 19);
                     break;
                 case 18:
                     SourceRectangle = new Rectangle(242, 336, 19, 19);
                     break;
                 case 19:
-                    SourceRectangle = new Rectangle(94,286, 18, 18);
+                    SourceRectangle = new Rectangle(94, 286, 18, 18);
                     break;
                 case 20:
                     SourceRectangle = new Rectangle(18, 402, 18, 18);
@@ -91,7 +91,7 @@ namespace GameDevProject.Classes.LevelDesign
                     SourceRectangle = new Rectangle(628, 130, 32, 32);
                     break;
                 case 22:
-                    SourceRectangle = new Rectangle(835, 78 , 32, 37);
+                    SourceRectangle = new Rectangle(835, 78, 32, 37);
                     break;
                 case 23:
                     SourceRectangle = new Rectangle(802, 130, 32, 32);
@@ -100,8 +100,8 @@ namespace GameDevProject.Classes.LevelDesign
                     SourceRectangle = new Rectangle(772, 78, 32, 37);
                     break;
                 case 25:
-                    SourceRectangle = new Rectangle(912,34,37,32);
-                        break;
+                    SourceRectangle = new Rectangle(912, 34, 37, 32);
+                    break;
                 case 26:
                     SourceRectangle = new Rectangle(913, 66, 35, 32);
                     break;
@@ -119,6 +119,9 @@ namespace GameDevProject.Classes.LevelDesign
                     break;
                 case 31:
                     SourceRectangle = new Rectangle(804, 78, 37, 37);
+                    break;
+                case 50:
+                    SourceRectangle = new Rectangle(0, 0, 16, 16);
                     break;
 
             }

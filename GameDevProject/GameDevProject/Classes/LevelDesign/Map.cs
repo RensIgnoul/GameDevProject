@@ -54,7 +54,10 @@ namespace GameDevProject.Classes.LevelDesign
     internal class Map
     {
         private List<CollisionTiles> collisionTiles = new List<CollisionTiles>();
+        private List<FinishTile> finishTiles = new List<FinishTile>();
+        public List<FinishTile> FinishTiles { get { return finishTiles; } }
         public List<CollisionTiles> CollisionTiles { get { return collisionTiles; } }
+
 
         private int width, height;
 
@@ -78,7 +81,11 @@ namespace GameDevProject.Classes.LevelDesign
                     int nr = map[j, i];
                     width = (i /*+ 1*/) * size;
                     height = (j /**+ 1*/) * size;
-                    if (nr > 0)
+                    if (nr == 50)
+                    {
+                        finishTiles.Add(new FinishTile(nr, width, height, new Rectangle(i * size, j * size, size, size)));
+                    }
+                    if (nr > 0 && nr<50)
                     {
                         collisionTiles.Add(new CollisionTiles(nr, width, height, new Rectangle(i * size, j * size, size, size)));
                     }

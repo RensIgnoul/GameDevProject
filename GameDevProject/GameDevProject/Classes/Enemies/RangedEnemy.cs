@@ -25,8 +25,8 @@ namespace GameDevProject.Classes.Enemies
         public Animation AttackingAnimation { get; set; }
         //EnemyMove _enemyMove;
         public RangedAttack enemyAttack;
-        RangedAttackUpdate _enemyAttackUpdate;
-        RangedAnimation _rangedAnimation;
+        protected RangedAttackUpdate _enemyAttackUpdate;
+        protected RangedAnimation _rangedAnimation;
 
         public List<Projectile> Projectiles { get; set; }
         public bool isAttacking { get; set; }

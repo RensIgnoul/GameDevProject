@@ -30,6 +30,8 @@ namespace GameDevProject.Classes.Hero
             get { return position; }
             set { position = value; }
         }
+
+        public Vector2 SpawnPosition { get; set; }
         public Vector2 KnockbackPosition { get; set; }
 
         //public List<Projectile> Projectiles = new List<Projectile>();
@@ -61,6 +63,10 @@ namespace GameDevProject.Classes.Hero
         HeroAnimationPicker _heroAnimationPicker;
         RangedAnimation _heroAnimationConfigurator;
         HeroAttackUpdate _heroAttackUpdate;
+
+        public bool attackable;
+        float timer = 0;
+        public int Score;
         // TODO REFACTOR ANIMATIONS? Dictionary misschien?
         public Hero(Texture2D texture, IInputReader inputReader, Texture2D projectile)
         {
@@ -91,7 +97,8 @@ namespace GameDevProject.Classes.Hero
             //animation.GetFramesFromTextureProperties(texture.Width, texture.Height, 8, 1);
             #endregion
             currentAnimation = idleAnimation;
-            Position = new Vector2(0, 0);
+            Position = new Vector2(0, 50);
+            SpawnPosition = position;
             KnockbackPosition = new Vector2(Position.X - 100, Position.Y);
             //Speed = new Vector2(1, 1);
             movementManager = new MovementManager();
@@ -109,6 +116,8 @@ namespace GameDevProject.Classes.Hero
             _heroAnimationConfigurator = new RangedAnimation(this);
             _heroAttackUpdate = new HeroAttackUpdate(this);
             Projectiles = new List<Projectile>();
+            attackable = true;
+            Score = 0;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -150,7 +159,7 @@ namespace GameDevProject.Classes.Hero
         public void Update(GameTime gameTime)
         {
 
-            HitBox/*.X*/ = new Rectangle((int)Position.X + 57,(int)Position.Y+57, HitBox.Width,HitBox.Height);
+            HitBox/*.X*/ = new Rectangle((int)Position.X + 57, (int)Position.Y + 57, HitBox.Width, HitBox.Height);
             //HitBox.Y = (int)Position.Y + 76;
             KnockbackPosition = new Vector2(Position.X - 10, Position.Y);
             var temp = Position;
@@ -226,7 +235,7 @@ namespace GameDevProject.Classes.Hero
         {
             if (HitBox.TouchTopOf(newRectangle))
             {
-                HitBox/*.Y*/ = new Rectangle(HitBox.X,newRectangle.Y - HitBox.Height-1,HitBox.Width,HitBox.Height);
+                HitBox/*.Y*/ = new Rectangle(HitBox.X, newRectangle.Y - HitBox.Height - 1, HitBox.Width, HitBox.Height);
                 velocity.Y = 0f;
                 currentAnimation = idleAnimation;
                 hasJumped = false;
@@ -289,11 +298,10 @@ namespace GameDevProject.Classes.Hero
             }
             heroAttack = new HeroAttack(this);
         }*/
-        public void TakeDamage()
+        public void TakeDamage(GameTime gameTime)
         {
             Health--;
         }
-
         private void Attack()
         {
             _heroAttack.Shoot(ProjectileSprite);

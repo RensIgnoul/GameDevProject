@@ -1,4 +1,5 @@
 ﻿using GameDevProject.Classes.Enemies;
+using GameDevProject.Classes.PickUp;
 using GameDevProject.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,10 +15,12 @@ namespace GameDevProject.Classes.LevelDesign
     {
         public Map Map { get; set; }
         public List<IUnit> Units = new List<IUnit>();
-        public Level(Map map, List<IUnit> unitList)
+        public List<Pickup> Pickups = new List<Pickup>();
+        public Level(Map map, List<IUnit> unitList,List<Pickup> pickups)
         {
             Map = map;
             Units = unitList;
+            Pickups = pickups;
         }
 
         public void Update(GameTime gameTime)
@@ -28,6 +31,10 @@ namespace GameDevProject.Classes.LevelDesign
         public void Draw(SpriteBatch spriteBatch)
         {
             Map.Draw(spriteBatch);
+            foreach (var pickup in Pickups)
+            {
+                pickup.Draw(spriteBatch);
+            }
             foreach (var unit in Units)
             {
                 unit.Draw(spriteBatch);
@@ -47,6 +54,7 @@ namespace GameDevProject.Classes.LevelDesign
                 }
                 
             }
+
         }
     }
 }
