@@ -1,5 +1,4 @@
 ﻿using GameDevProject.Classes.Enemies;
-using GameDevProject.Classes.NeutralUnits;
 using GameDevProject.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -14,9 +13,9 @@ namespace GameDevProject.Classes.Factory
     {
         public IUnit CreateUnit(string unitType, int x, int y, Texture2D texture)
         {
-            if (unitType.ToUpper() == "NEUTRAL")
+            if (unitType.ToUpper() == "TRAP")
             {
-                return new NeutralUnit(texture, x, y);
+                return new TrapEnemy(texture, x, y);
             }
             if (unitType.ToUpper() == "CHARGER")
             {

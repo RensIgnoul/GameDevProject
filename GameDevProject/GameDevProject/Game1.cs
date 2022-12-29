@@ -26,6 +26,7 @@ namespace GameDevProject
         private Texture2D _rangedTexture;
         private Texture2D _arrowTexture;
         private Texture2D _pickupTexture;
+        private Texture2D _trapTexture;
         private UnitFactory unitFactory;
         private PickupFactory pickupFactory;
 
@@ -34,8 +35,6 @@ namespace GameDevProject
 
         // *****************
         private Hero hero;
-        private ChargerEnemy enemy1;
-        private RangedEnemy enemy2;
         //******************
         Map map = new Map();
         Map map2 = new Map();
@@ -89,6 +88,7 @@ namespace GameDevProject
             unitsLevel1.Add(unitFactory.CreateUnit("RANGED", 650, 385, _rangedTexture, _arrowTexture));
             unitsLevel1.Add(unitFactory.CreateUnit("CHARGER", 350, 675, _chargerTexture));
             unitsLevel1.Add(unitFactory.CreateUnit("CHARGER", 1100, 825, _chargerTexture));
+            unitsLevel1.Add(unitFactory.CreateUnit("TRAP", 902, 1025, _trapTexture));
 
             pickupsLevel1.Add(pickupFactory.CreatePickUp("COIN", 400, 25, _pickupTexture));
             pickupsLevel1.Add(pickupFactory.CreatePickUp("COIN", 1075, 25, _pickupTexture));
@@ -115,7 +115,6 @@ namespace GameDevProject
 
 
         }
-        // TODO SPAWNPOINT HERO AANPASSEN ZODAT MOVEMENT GEBLOKEERD KAN WORDEN IN TUSSENLEVEL
         protected override void LoadContent()
         {
             Tiles.Content = Content;
@@ -166,21 +165,20 @@ namespace GameDevProject
             }, 200);
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _currentState = new MenuState(this, GraphicsDevice, Content);
-            // TODO: use this.Content to load your game content here
+
             _heroTexture = Content.Load<Texture2D>("PlayerCharacter/PlayerSpriteSheet");//"CharacterSheetExample");
             _rangedTexture = Content.Load<Texture2D>("Enemies/Ranged/spritesheet");
             _chargerTexture = Content.Load<Texture2D>("Enemies/Charger/_Run");
+            _trapTexture = Content.Load<Texture2D>("Enemies/Trap/Spike");
             _arrowTexture = Content.Load<Texture2D>("Projectiles/arrow");
             _pickupTexture = Content.Load<Texture2D>("Pickups/PickUps");
+
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            // TODO: Add your update logic here
-
 
             hero.Update(gameTime);
             _currentState.Update(gameTime);
@@ -220,18 +218,15 @@ namespace GameDevProject
                 {
                     Enemy enemy = _currentLevel.Units[i] as Enemy;
 
-                    /*units[i]*/
                     enemy.Update(gameTime);
-                    //enemies[i].UpdateProjectiles();
                     for (int j = hero.Projectiles.Count - 1; j >= 0; j--)
                     {
                         if (hero.Projectiles[j].HitBox.Intersects(/*units[i]*/enemy.HitBox))
                         {
-                            /*units[i]*/
                             enemy.Health--;
                             hero.Projectiles.RemoveAt(j);
                         }
-                        if (/*units[i]*/enemy.Health == 0)
+                        if (enemy.Health == 0)
                         {
                             _currentLevel.Units.RemoveAt(i);
                         }
@@ -250,13 +245,6 @@ namespace GameDevProject
             {
                 _currentState = new EndState(this, GraphicsDevice, Content);
             }
-            /*if (Keyboard.GetState().IsKeyDown(Keys.U)*//*&&pastKey.IsKeyUp(Keys.U)*//*)
-            {
-                hero.Shoot(hero.ProjectileSprite);//Content.Load<Texture2D>("Projectiles/energy_ball"));
-            }*/
-
-
-            //hero.UpdateProjectiles();
 
             foreach (var unit in _currentLevel.Units)
             {
@@ -357,8 +345,6 @@ namespace GameDevProject
                     _currentLevel = _lvl2;
                     break;
                 case GameState:
-
-
                     if (_currentLevel == _lvl1)
                     {
                         _spriteBatch.Draw(Content.Load<Texture2D>("Backgrounds/backgroundLevelOne"), new Vector2(0, 0), new Rectangle(0, 0, 1024, 576), Color.White, 0, new Vector2(0, 0), 1.875f, SpriteEffects.None, 0);

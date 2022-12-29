@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace GameDevProject.States
 {
+    // Deze class is over genomen van Oyyou (https://www.youtube.com/watch?v=76Mz7ClJLoE&t=377s&ab_channel=Oyyou)
     public abstract class State
     {
         protected ContentManager _content;
