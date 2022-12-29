@@ -25,7 +25,6 @@ namespace GameDevProject
         private Texture2D _chargerTexture;
         private Texture2D _rangedTexture;
         private Texture2D _arrowTexture;
-        private Texture2D _bossTexture;
         private Texture2D _pickupTexture;
         private UnitFactory unitFactory;
         private PickupFactory pickupFactory;
@@ -143,20 +142,20 @@ namespace GameDevProject
             }, 75);
             map2.Generate(new int[,]
             {
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,1,0,0},
-                {1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,0,0,1,1,1},
-                {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                {1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1},
-                {1,0,0,0,0,1,1,0,1,1,1,1,0,0,0,1,1,1,1,1,1,1,0,0,0,1},
-                {1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                {1,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,1},
-                {1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1},
-                {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                {2,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2},
-                {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,50,2},
-                {28,29,1,1,0,0,0,0,1,30,31,24,1,24,28,29,28,29,28,29,28,29,28,29,28,29},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,20,20},
+                {18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,20,20},
+                {12,0,0,0,0,0,0,0,0,0,0,0,0,17,1,2,3,18,0,0,0,0,0,19,20,20},
+                {20,2,3,1,2,3,1,2,3,1,2,3,1,16,0,0,0,12,7,8,9,0,0,23,20,20},
+                {22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,24},
+                {29,28,29,28,29,25,0,0,0,0,0,17,1,2,3,18,0,0,0,0,0,17,2,3,1,1},
+                {25,0,0,0,0,26,25,0,1,2,3,21,0,0,0,23,1,2,3,1,2,21,0,0,0,24},
+                {26,0,0,0,0,0,26,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,24},
+                {27,0,0,0,0,0,27,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,24},
+                {25,0,0,0,0,1,26,1,2,3,1,2,3,1,1,2,3,1,1,2,3,1,1,0,0,24},
+                {26,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,24},
+                {27,0,0,0,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,2},
+                {27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,50,2},
+                {28,29,28,29,28,29,28,29,28,29,28,29,28,29,28,29,28,29,28,29,28,29,28,29,28,29},
                 {20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20},
             }, 75);
             controlMap.Generate(new int[,]
@@ -174,7 +173,6 @@ namespace GameDevProject
             _rangedTexture = Content.Load<Texture2D>("Enemies/Ranged/spritesheet");
             _chargerTexture = Content.Load<Texture2D>("Enemies/Charger/_Run");
             _arrowTexture = Content.Load<Texture2D>("Projectiles/arrow");
-            _bossTexture = Content.Load<Texture2D>("Enemies/Boss/BossSpriteSheet");
             _pickupTexture = Content.Load<Texture2D>("Pickups/PickUps");
         }
 
@@ -275,11 +273,6 @@ namespace GameDevProject
                 }
                 if (Vector2.Distance(hero.Position, unit.Position) < 450 && _currentState is GameState && hero.Position.Y - unit.Position.Y > 25)
                 {
-                    if (unit is IBoss)
-                    {
-                        BossEnemy boss = unit as BossEnemy;
-                        boss._attack.Shoot(boss.ProjectileSprite);
-                    }
                     if (unit is RangedEnemy)
                     {
                         RangedEnemy ranged = unit as RangedEnemy;
@@ -375,14 +368,15 @@ namespace GameDevProject
                     }
                     if (_currentLevel == _lvl2)
                     {
+                        _spriteBatch.Draw(Content.Load<Texture2D>("Backgrounds/backgroundLevelOne"), new Vector2(0, 0), new Rectangle(0, 0, 1024, 576), Color.White, 0, new Vector2(0, 0), 1.875f, SpriteEffects.FlipHorizontally, 0);
                         _lvl2.Draw(_spriteBatch);
                     }
                     //_spriteBatch.Draw(Content.Load<Texture2D>("Projectile"), hero.HitBox, Color.Red);
                     hero.Draw(_spriteBatch);
-                    foreach (var enemy in _currentLevel.Units)
+                    /*foreach (var enemy in _currentLevel.Units)
                     {
                         _spriteBatch.Draw(Content.Load<Texture2D>("Projectile"), enemy.HitBox, Color.Red);
-                    }
+                    }*/
 
                     _currentState.Draw(gameTime, _spriteBatch);
                     _spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/Font"), "Score: " + hero.Score, new Vector2(25, 25), Color.Red);

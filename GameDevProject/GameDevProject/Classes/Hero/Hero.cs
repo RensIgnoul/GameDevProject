@@ -97,7 +97,7 @@ namespace GameDevProject.Classes.Hero
             //animation.GetFramesFromTextureProperties(texture.Width, texture.Height, 8, 1);
             #endregion
             currentAnimation = idleAnimation;
-            Position = new Vector2(0, 50);
+            Position = new Vector2(50, 50);
             SpawnPosition = position;
             KnockbackPosition = new Vector2(Position.X - 100, Position.Y);
             //Speed = new Vector2(1, 1);
