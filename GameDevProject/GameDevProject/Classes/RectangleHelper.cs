@@ -9,7 +9,7 @@ namespace GameDevProject.Classes
 {
     internal static class RectangleHelper
     {
-        // Deze class is gebaseerd op hde code van Oyyou (https://www.youtube.com/watch?v=PKlHcxFAEk0&t=67s&ab_channel=Oyyou)
+        // Deze class is gebaseerd op de code van Oyyou (https://www.youtube.com/watch?v=PKlHcxFAEk0&t=67s&ab_channel=Oyyou)
         public static bool TouchTopOf(this Rectangle r1, Rectangle r2)
         {
             return (r1.Bottom >= r2.Top &&
