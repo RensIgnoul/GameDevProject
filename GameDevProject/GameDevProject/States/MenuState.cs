@@ -65,10 +65,13 @@ namespace GameDevProject.States
             spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "Reach the end of a level to win", new Vector2(800, 950), Color.White);
             spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "Getting a score of 15 also automatically wins you the game", new Vector2(800, 975), Color.White);
 
-            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "Controls: ", new Vector2(1700, 950),Color.White);
-            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "Movement = Arrows", new Vector2(1700, 975), Color.White);
-            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "Arrow down = Block projectiles", new Vector2(1700, 1000), Color.White);
-            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "Shoot = Spacebar", new Vector2(1700, 1025), Color.White);
+            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "Controls: ", new Vector2(1700, 875),Color.White);
+            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "Movement = Arrows", new Vector2(1700, 900), Color.White);
+            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "Arrow down = Block projectiles", new Vector2(1700, 925), Color.White);
+            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "Shoot = Spacebar", new Vector2(1700, 950), Color.White);
+            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "+ = Increase music volume", new Vector2(1700, 975), Color.White);
+            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "- = Decrease music volume", new Vector2(1700, 1000), Color.White);
+            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "M = Mute music", new Vector2(1700, 1025), Color.White);
         }
 
         private void LoadGameButton_Click(object sender, EventArgs e)

@@ -13,16 +13,13 @@ using GameDevProject.Classes.Behaviour.General;
 
 namespace GameDevProject.Classes.Hero
 {
-    internal class Hero : IGameObject, /*IMovable,*/ IRangedAttacker, IUnit
+    internal class Hero : IGameObject, IRangedAttacker, IUnit
     {
         public Texture2D texture { get; set; }
-        //private IInputReader inputReader;
-        //private MovementManager movementManager;
         internal Vector2 velocity;
         public Rectangle HitBox { get; set; }
         internal Color Color;
 
-        //public SpriteEffects SpriteOrientation = SpriteEffects.None;
         internal bool hasJumped = false;
         private Vector2 position;
         public Vector2 Position
@@ -30,15 +27,8 @@ namespace GameDevProject.Classes.Hero
             get { return position; }
             set { position = value; }
         }
-
         public Vector2 SpawnPosition { get; set; }
-        public Vector2 KnockbackPosition { get; set; }
 
-        //public List<Projectile> Projectiles = new List<Projectile>();
-        //KeyboardState pastKey;
-        // public Vector2 Position { get; set; }
-        //public Vector2 Speed { get; set; }
-        //public IInputReader InputReader { get; set; }
         public int Health { get; set; }
         public List<Projectile> Projectiles { get; set; }
         public SpriteEffects SpriteOrientation { get; set; }
@@ -51,7 +41,6 @@ namespace GameDevProject.Classes.Hero
         public Animation AttackingAnimation { get; set; }
 
         public Texture2D ProjectileSprite { get; set; }
-        //public bool IsSpotted = false;
         RangedAttack _heroAttack;
         HeroMove _heroMove;
         HeroInput _heroInput;
@@ -67,39 +56,11 @@ namespace GameDevProject.Classes.Hero
         public Hero(Texture2D texture, Texture2D projectile)
         {
             this.texture = texture;
-            //InputReader = inputReader;
-            #region comment
-            /*runningAnimation.AddFrame(new AnimationFrame(new Rectangle(0, 0, 231, 190)));
-            runningAnimation.AddFrame(new AnimationFrame(new Rectangle(231, 0, 231, 190)));
-            runningAnimation.AddFrame(new AnimationFrame(new Rectangle(462, 0, 231, 190)));
-            runningAnimation.AddFrame(new AnimationFrame(new Rectangle(693, 0, 231, 190)));
-            runningAnimation.AddFrame(new AnimationFrame(new Rectangle(924, 0, 231, 190)));
-            runningAnimation.AddFrame(new AnimationFrame(new Rectangle(1155, 0, 231, 190)));
-            runningAnimation.AddFrame(new AnimationFrame(new Rectangle(1386, 0, 231, 190)));
-            runningAnimation.AddFrame(new AnimationFrame(new Rectangle(1617, 0, 231, 190)));*/
-
-
-            /* idleAnimation.AddFrame(new AnimationFrame(new Rectangle(1848, 0, 231, 190)));
-             idleAnimation.AddFrame(new AnimationFrame(new Rectangle(2079, 0, 231, 190)));
-             idleAnimation.AddFrame(new AnimationFrame(new Rectangle(2310, 0, 231, 190)));
-             idleAnimation.AddFrame(new AnimationFrame(new Rectangle(2541, 0, 231, 190)));
-             idleAnimation.AddFrame(new AnimationFrame(new Rectangle(2772, 0, 231, 190)));
-             idleAnimation.AddFrame(new AnimationFrame(new Rectangle(3003, 0, 231, 190)));
-
-
-             jumpingAnimation.AddFrame(new AnimationFrame(new Rectangle(3234, 0, 231, 190)));
-             jumpingAnimation.AddFrame(new AnimationFrame(new Rectangle(3465, 0, 231, 190)));*/
-            //animation.GetFramesFromTextureProperties(texture.Width, texture.Height, 5, 2);
-            //animation.GetFramesFromTextureProperties(texture.Width, texture.Height, 8, 1);
-            #endregion
             currentAnimation = idleAnimation;
             Position = new Vector2(50, 50);
             SpawnPosition = position;
-            KnockbackPosition = new Vector2(Position.X - 100, Position.Y);
-            //Speed = new Vector2(1, 1);
-            //movementManager = new MovementManager();
             Color = Color.White;
-            HitBox = new Rectangle((int)Position.X, (int)Position.Y, 57, 57);//150, 210); 76 = base height
+            HitBox = new Rectangle((int)Position.X, (int)Position.Y, 57, 57);
             Health = 3;
             isAttacking = false;
             ProjectileSprite = projectile;
@@ -124,110 +85,18 @@ namespace GameDevProject.Classes.Hero
             spriteBatch.Draw(texture, Position, currentAnimation.CurrentFrame.SourceRectangle, Color, 0, new Vector2(0, 0), new Vector2(0.75f, 0.75f), SpriteOrientation, 1);
         }
 
-        /*private void SetAnimation()
-        {
-            if (isAttacking)
-            {
-                currentAnimation = attackingAnimation;
-            }
-            else if (hasJumped)
-            {
-                currentAnimation = jumpingAnimation;
-            }
-            else if (velocity.X != 0)
-            {
-                currentAnimation = runningAnimation;
-            }
-            else
-            {
-                currentAnimation = idleAnimation;
-            }
-
-            if (velocity.X < 0)
-            {
-                SpriteOrientation = SpriteEffects.FlipHorizontally;
-            }
-            else if (velocity.X > 0)
-            {
-                SpriteOrientation = SpriteEffects.None;
-            }
-        }*/
-
         public void Update(GameTime gameTime)
         {
-
-            HitBox/*.X*/ = new Rectangle((int)Position.X + 57, (int)Position.Y + 57, HitBox.Width, HitBox.Height);
-            //HitBox.Y = (int)Position.Y + 76;
-            KnockbackPosition = new Vector2(Position.X - 10, Position.Y);
-            var temp = Position;
+            HitBox = new Rectangle((int)Position.X + 57, (int)Position.Y + 57, HitBox.Width, HitBox.Height);
             runningAnimation.Update(gameTime);
             idleAnimation.Update(gameTime);
             jumpingAnimation.Update(gameTime);
             AttackingAnimation.Update(gameTime);
             _heroAnimationConfigurator.AttackConfiguration(gameTime, 800);
-
-
-            //Move();
             _heroAttackUpdate.UpdateProjectiles();
             _heroInput.Input(gameTime);
             _heroMove.Move();
         }
-        /*Position += velocity;
-        if (velocity.Y < 10)
-        {
-            velocity.Y += 0.4f;
-        }*/
-
-
-
-        /*private void AttackConfiguration(GameTime gameTime)
-        {
-            if (isAttacking)
-            {
-                attackTimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-                if (attackTimer >= 800)
-                {
-                    isAttacking = false;
-                    attackTimer = 0;
-                }
-            }
-            else
-            {
-                attackingAnimation.counter = 0; // dit houd de animation op de eerste frame, anders kan animition of random frame beginnen;
-            }
-        }*/
-
-        /*private void Move()
-        {
-            movementManager.Move(this);
-        }*/
-        /*public void ChangeInput(IInputReader inputReader)
-        {
-            this.inputReader = inputReader;
-        }*/
-        /*private void Input(GameTime gameTime)
-        {
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
-            {
-                velocity.X = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Left))
-            {
-                velocity.X = -(float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
-            }
-            else velocity.X = 0f;
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) && hasJumped == false)
-            {
-                position.Y -= 50f;
-                velocity.Y = -9f;
-                currentAnimation = jumpingAnimation;
-                hasJumped = true;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.U)/*&&pastKey.IsKeyUp(Keys.U))
-            {
-                heroAttack.Shoot(ProjectileSprite);//Content.Load<Texture2D>("Projectiles/energy_ball"));
-            }
-        }*/
         public void Collision(Rectangle newRectangle)
         {
             if (HitBox.TouchTopOf(newRectangle))
@@ -239,62 +108,17 @@ namespace GameDevProject.Classes.Hero
             }
             if (HitBox.TouchLeftOf(newRectangle))
             {
-                position.X = position.X - 7;//-newRectangle.Width;
+                position.X = position.X - 7;
             }
             if (HitBox.TouchRightOf(newRectangle))
             {
-                position.X = position.X + 10;//+ newRectangle.Width;
+                position.X = position.X + 10;
             }
             if (HitBox.TouchBottomOf(newRectangle))
             {
                 velocity.Y = 5;
             }
         }
-
-        /*public void UpdateProjectiles()
-        {
-            foreach (var projectile in Projectiles)
-            {
-                projectile.Position += projectile.Speed;
-                projectile.HitBox.X = (int)projectile.Position.X;
-                projectile.HitBox.Y = (int)projectile.Position.Y;
-                if (Vector2.Distance(projectile.Position, Position) > 500) // maakt kogel onzichtbaar na 500px
-                {
-                    projectile.IsVisible = false;
-                }
-            }
-            for (int i = 0; i < Projectiles.Count; i++)
-            {
-                if (!Projectiles[i].IsVisible)
-                {
-                    Projectiles.RemoveAt(i);
-                    i--;
-                }
-            }
-        }*/
-
-        /*public void Shoot(Texture2D texture)
-        {
-            Projectile newProjectile = new Projectile(texture,33,27, SpriteOrientation);//Content.Load<Texture2D>("Projectile"));
-            if (SpriteOrientation == SpriteEffects.None)
-            {
-                newProjectile.Speed = new Vector2(5, 0);
-            }
-            if (SpriteOrientation == SpriteEffects.FlipHorizontally)
-            {
-                newProjectile.Speed = new Vector2(-5, 0);
-            }
-            newProjectile.Position = new Vector2(Position.X + HitBox.Width, HitBox.Y + HitBox.Height / 6) + newProjectile.Speed * 5;
-
-
-            newProjectile.IsVisible = true;
-            if (Projectiles.Count < 1)
-            {
-                Projectiles.Add(newProjectile);
-                isAttacking = true;
-            }
-            heroAttack = new HeroAttack(this);
-        }*/
         public void TakeDamage(GameTime gameTime)
         {
             Health--;
@@ -308,41 +132,5 @@ namespace GameDevProject.Classes.Hero
         {
             _heroAttackUpdate.UpdateProjectiles();
         }
-
-        /*public void CreateAnimations()
-{
-   List<Rectangle> runningFrames = new List<Rectangle>();
-   List<Rectangle> idleFrames = new List<Rectangle>();
-   List<Rectangle> jumpingFrames = new List<Rectangle>();
-   List<Rectangle> attackingFrames = new List<Rectangle>();
-   int frameWidth = 231;
-
-   idleAnimation = new Animation();
-   runningAnimation = new Animation();
-   jumpingAnimation = new Animation();
-   attackingAnimation = new Animation();
-
-
-   for (int i = 0; i < 8 * frameWidth; i += frameWidth)
-   {
-       runningFrames.Add(new Rectangle(i, 576, frameWidth, 192));
-   }
-   for (int i = 0; i < 6 * frameWidth; i += frameWidth)
-   {
-       idleFrames.Add(new Rectangle(i, 192, frameWidth, 192));
-   }
-   for (int i = 0 * frameWidth; i < 2 * frameWidth; i += frameWidth)
-   {
-       jumpingFrames.Add(new Rectangle(i, 384, frameWidth, 192));
-   }
-   for (int i = 0 * frameWidth; i < 8 * frameWidth; i += frameWidth)
-   {
-       attackingFrames.Add(new Rectangle(i, 0, frameWidth, 192));
-   }
-   runningAnimation.AddFrameList(runningFrames);
-   idleAnimation.AddFrameList(idleFrames);
-   jumpingAnimation.AddFrameList(jumpingFrames);
-   attackingAnimation.AddFrameList(attackingFrames);
-}*/
     }
 }

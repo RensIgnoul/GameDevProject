@@ -80,6 +80,12 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/Font.spritefont
 
+#begin Music/Good Kid - Nomu 8-bit.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/Good Kid - Nomu 8-bit.mp3
+
 #begin Pickups/PickUps.png
 /importer:TextureImporter
 /processor:TextureProcessor

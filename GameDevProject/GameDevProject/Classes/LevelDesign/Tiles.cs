@@ -32,7 +32,7 @@ namespace GameDevProject.Classes.LevelDesign
             spriteBatch.Draw(texture,Rectangle, Color.White);
         }
     }*/
-    internal class Tiles
+    internal abstract class Tiles
     {
         public Texture2D texture;
         private Rectangle rectangle;

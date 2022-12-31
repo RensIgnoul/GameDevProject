@@ -12,12 +12,19 @@ using GameDevProject.States;
 using GameDevProject.Interfaces;
 using GameDevProject.Classes.Factory;
 using GameDevProject.Classes.PickUp;
+using Microsoft.Xna.Framework.Media;
 
 namespace GameDevProject
 {
+    /// <summary>
+    /// S Hero en Enemies gebruiken SRP om update/attack te regelen.
+    /// O wordt gebruikt bij enemies, er kunnen makkelijk nieuwe soorten enemies gemaakt worden zonder de base (abstracte) Enemy class aan te passen
+    /// L De enemies gebruiken LSP, ze kunnen op dezelfde manier gebruikt worden door het programma
+    /// I
+    /// D
+    /// </summary>
     public class Game1 : Game
-    {
-        //TODO HEAVY REFACTORING
+    { 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D _heroTexture;
@@ -33,16 +40,13 @@ namespace GameDevProject
         List<IUnit> unitsLevel1 = new List<IUnit>();
         List<IUnit> unitsLevel2 = new List<IUnit>();
 
-        // *****************
         private Hero hero;
-        //******************
+
         Map map = new Map();
         Map map2 = new Map();
 
         private State _currentState;
         private State _nextState;
-
-        ////////////////////////////////////
 
         Level _lvl1;
         Level _lvl2;
@@ -52,6 +56,8 @@ namespace GameDevProject
 
         List<Pickup> pickupsLevel1 = new List<Pickup>();
         List<Pickup> pickupsLevel2 = new List<Pickup>();
+
+        Song Nomu;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -66,24 +72,17 @@ namespace GameDevProject
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             //_graphics.IsFullScreen = true;
             _graphics.PreferredBackBufferWidth = 1920;
             _graphics.PreferredBackBufferHeight = 1080;
             _graphics.ApplyChanges();
             base.Initialize();
+
             unitFactory = new UnitFactory();
             pickupFactory = new PickupFactory();
-            hero = new Hero(_heroTexture, Content.Load<Texture2D>("Projectiles/energy_ball"));
-            //enemy1 = new ChargerEnemy(_chargerTexture, 1300, 405);//, Content.Load<Texture2D>("Projectiles/energy_ball"));
-            //enemy2 = new RangedEnemy(_rangedTexture, 1400, 465, Content.Load<Texture2D>("Projectiles/arrow"));
-            //this.units.Add(enemy1);
 
-            /*foreach (var enemy in _currentLevel.Units)
-            {
-                _spriteBatch.Draw(Content.Load<Texture2D>("Projectile"), enemy.HitBox, Color.Red);
-            }*/
-            //this.units.Add(enemy2);
+            hero = new Hero(_heroTexture, Content.Load<Texture2D>("Projectiles/energy_ball"));
+
             unitsLevel1.Add(unitFactory.CreateUnit("CHARGER", 500, 0/*1300, 400*/, _chargerTexture));
             unitsLevel1.Add(unitFactory.CreateUnit("RANGED", 650, 385, _rangedTexture, _arrowTexture));
             unitsLevel1.Add(unitFactory.CreateUnit("CHARGER", 350, 675, _chargerTexture));
@@ -112,9 +111,7 @@ namespace GameDevProject
             _lvl1 = new Level(map, unitsLevel1, pickupsLevel1);
             _lvl2 = new Level(map2, unitsLevel2, pickupsLevel2);
             _controlLevel = new Level(controlMap, new List<IUnit>(), new List<Pickup>());
-            _currentLevel = _controlLevel;// _lvl1;
-
-
+            _currentLevel = _controlLevel;
         }
         protected override void LoadContent()
         {
@@ -174,6 +171,10 @@ namespace GameDevProject
             _arrowTexture = Content.Load<Texture2D>("Projectiles/arrow");
             _pickupTexture = Content.Load<Texture2D>("Pickups/PickUps");
 
+            Nomu = Content.Load<Song>("Music/Good Kid - Nomu 8-bit");
+            MediaPlayer.Volume = 0.1f;
+            MediaPlayer.Play(Nomu);
+            MediaPlayer.IsRepeating = true;
         }
 
         protected override void Update(GameTime gameTime)
@@ -183,6 +184,19 @@ namespace GameDevProject
 
             hero.Update(gameTime);
             _currentState.Update(gameTime);
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Add))
+            {
+                MediaPlayer.Volume += 0.025f;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Subtract))
+            {
+                MediaPlayer.Volume -= 0.025f;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.M))
+            {
+                MediaPlayer.Volume = 0;
+            }
 
             foreach (var tile in _currentLevel.Map.CollisionTiles)
             {
@@ -252,96 +266,64 @@ namespace GameDevProject
                 if (hero.HitBox.Intersects(unit.HitBox))
                 {
                     hero.TakeDamage(gameTime);
-                    //hero.Position = hero.KnockbackPosition;
                     if (hero.Health <= 0)
                     {
-                        _currentState = new DeathState(this, GraphicsDevice, Content);//Exit(); // TODO deathscreen maken
+                        _currentState = new DeathState(this, GraphicsDevice, Content);
                     }
                 }
                 if (Vector2.Distance(hero.Position, unit.Position) < 450 && _currentState is GameState && hero.Position.Y - unit.Position.Y > 25)
                 {
-                    if (unit is RangedEnemy)
+                    if (unit is Enemy)
+                    {
+                        (unit as Enemy).Attack(gameTime);
+                    }
+                    /*if (unit is RangedEnemy)
                     {
                         RangedEnemy ranged = unit as RangedEnemy;
-                        ranged.enemyAttack.Shoot(ranged.ProjectileSprite);
+                        ranged.Attack();
                     }
                     if (unit is ChargerEnemy)
                     {
                         ChargerEnemy charger = unit as ChargerEnemy;
                         charger.chargerAttack.Attack(gameTime);
-                    }
-                    //unit.IsAttacking = true;
+                    }*/
                 }
-                if (unit is RangedEnemy)
+                if (unit is IRangedAttacker)
                 {
                     foreach (var projectile in (unit as RangedEnemy).Projectiles)
                     {
                         if (hero.HitBox.Intersects(projectile.HitBox) && hero.Attackable)
                         {
                             hero.TakeDamage(gameTime);
-                            //hero.Position = hero.KnockbackPosition;
                             if (hero.Health <= 0)
                             {
-                                Exit(); // TODO deathscreen maken
+                                _currentState = new DeathState(this, GraphicsDevice, Content);
                             }
                         }
                     }
                 }
-
             }
-
-            /*foreach (var projectile in enemy.Projectiles)
-            {
-                if (hero.HitBox.Intersects(projectile.HitBox))
-                {
-                    hero.TakeDamage();
-                    hero.Position = hero.KnockbackPosition;
-                    if (hero.Health <= 0)
-                    {
-                        Exit(); // TODO deathscreen maken
-                    }
-                }
-            }*/
-
-
-            /*    hero.IsSpotted = true;
-                //enemy.IsPatrolling = false;
-            }
-            else
-            {
-                hero.IsSpotted = false;
-                enemy.IsPatrolling = true;
-            }
-            if (hero.IsSpotted)
-            {
-                //enemy.IsPatrolling = false;
-                enemy.Charge();
-                //enemy.Shoot();*/
-
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            // TODO: Add your drawing code here
             _spriteBatch.Begin();
             switch (_currentState)
             {
                 case MenuState:
                     _currentState.Draw(gameTime, _spriteBatch);
-
                     break;
                 case LevelSelectState:
-
                     _currentState.Draw(gameTime, _spriteBatch);
                     break;
                 case LevelOneState:
-
                     _currentState = new GameState(this, GraphicsDevice, Content);
                     _currentLevel = _lvl1;
                     break;
                 case LevelTwoState:
+                    MediaPlayer.IsRepeating = true;
                     _currentState = new GameState(this, GraphicsDevice, Content);
                     _currentLevel = _lvl2;
                     break;
@@ -356,30 +338,11 @@ namespace GameDevProject
                         _spriteBatch.Draw(Content.Load<Texture2D>("Backgrounds/backgroundLevelOne"), new Vector2(0, 0), new Rectangle(0, 0, 1024, 576), Color.White, 0, new Vector2(0, 0), 1.875f, SpriteEffects.FlipHorizontally, 0);
                         _lvl2.Draw(_spriteBatch);
                     }
-                    //_spriteBatch.Draw(Content.Load<Texture2D>("Projectile"), hero.HitBox, Color.Red);
                     hero.Draw(_spriteBatch);
-                    /*foreach (var enemy in _currentLevel.Units)
-                    {
-                        _spriteBatch.Draw(Content.Load<Texture2D>("Projectile"), enemy.HitBox, Color.Red);
-                    }*/
 
                     _currentState.Draw(gameTime, _spriteBatch);
                     _spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/Font"), "Score: " + hero.Score, new Vector2(25, 25), Color.Red);
-                    /*map.Draw(_spriteBatch);
-                    
-                    _spriteBatch.Draw(Content.Load<Texture2D>("Projectile"), enemy.HitBox, Color.Red);
-                    
-                    foreach (var enemy in enemies)
-                    {
-                        enemy.Draw(_spriteBatch);
-                        if (enemy.Health > 0)
-                        {
-                            foreach (var projectile in enemy.Projectiles)
-                            {
-                                projectile.Draw(_spriteBatch, 0.1f);
-                            }
-                        }     
-                    }*/
+
                     foreach (var projectile in hero.Projectiles)
                     {
                         projectile.Draw(_spriteBatch, 0.1f);
