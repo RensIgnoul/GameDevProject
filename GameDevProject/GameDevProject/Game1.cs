@@ -333,10 +333,6 @@ namespace GameDevProject
                         _lvl2.Draw(_spriteBatch);
                     }
                     hero.Draw(_spriteBatch);
-                    foreach (var unit in _currentLevel.Units)
-                    {
-                        _spriteBatch.Draw(Content.Load<Texture2D>("Projectile"), unit.HitBox, Color.White);
-                    }
                     _currentState.Draw(gameTime, _spriteBatch);
                     _spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/Font"), "Score: " + hero.Score, new Vector2(25, 25), Color.Red);
 
