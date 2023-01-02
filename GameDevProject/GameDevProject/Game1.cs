@@ -90,6 +90,8 @@ namespace GameDevProject
             unitsLevel1.Add(unitFactory.CreateUnit("TRAP", 902, 1025, _trapTexture));
             unitsLevel1.Add(unitFactory.CreateUnit("TRAP",1803,100,_trapTexture));
 
+            unitsLevel2.Add(unitFactory.CreateUnit("TRAP",70,915,_trapTexture));
+
             pickupsLevel1.Add(pickupFactory.CreatePickUp("COIN", 400, 25, _pickupTexture));
             pickupsLevel1.Add(pickupFactory.CreatePickUp("COIN", 1075, 25, _pickupTexture));
             pickupsLevel1.Add(pickupFactory.CreatePickUp("COIN", 800, 100, _pickupTexture));
@@ -250,6 +252,7 @@ namespace GameDevProject
             }
             for (int i = _currentLevel.Pickups.Count - 1; i >= 0; i--)
             {
+                _currentLevel.Pickups[i].Update(gameTime);
                 if (_currentLevel.Pickups[i].HitBox.Intersects(hero.HitBox))
                 {
                     hero.Score++;
@@ -277,16 +280,6 @@ namespace GameDevProject
                     {
                         (unit as Enemy).Attack(gameTime);
                     }
-                    /*if (unit is RangedEnemy)
-                    {
-                        RangedEnemy ranged = unit as RangedEnemy;
-                        ranged.Attack();
-                    }
-                    if (unit is ChargerEnemy)
-                    {
-                        ChargerEnemy charger = unit as ChargerEnemy;
-                        charger.chargerAttack.Attack(gameTime);
-                    }*/
                 }
                 if (unit is IRangedAttacker)
                 {
@@ -308,7 +301,7 @@ namespace GameDevProject
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.DimGray);
             _spriteBatch.Begin();
             switch (_currentState)
             {
@@ -328,6 +321,7 @@ namespace GameDevProject
                     _currentLevel = _lvl2;
                     break;
                 case GameState:
+                    
                     if (_currentLevel == _lvl1)
                     {
                         _spriteBatch.Draw(Content.Load<Texture2D>("Backgrounds/backgroundLevelOne"), new Vector2(0, 0), new Rectangle(0, 0, 1024, 576), Color.White, 0, new Vector2(0, 0), 1.875f, SpriteEffects.None, 0);
@@ -339,7 +333,10 @@ namespace GameDevProject
                         _lvl2.Draw(_spriteBatch);
                     }
                     hero.Draw(_spriteBatch);
-
+                    foreach (var unit in _currentLevel.Units)
+                    {
+                        _spriteBatch.Draw(Content.Load<Texture2D>("Projectile"), unit.HitBox, Color.White);
+                    }
                     _currentState.Draw(gameTime, _spriteBatch);
                     _spriteBatch.DrawString(Content.Load<SpriteFont>("Fonts/Font"), "Score: " + hero.Score, new Vector2(25, 25), Color.Red);
 
@@ -349,9 +346,11 @@ namespace GameDevProject
                     }
                     break;
                 case DeathState:
+                    GraphicsDevice.Clear(Color.Black);
                     _currentState.Draw(gameTime, _spriteBatch);
                     break;
                 case EndState:
+                    GraphicsDevice.Clear(Color.Black);
                     _currentState.Draw(gameTime, _spriteBatch);
                     break;
             }

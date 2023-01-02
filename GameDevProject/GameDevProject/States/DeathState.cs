@@ -23,7 +23,8 @@ namespace GameDevProject.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "You died. Press escape to quit", new Vector2((1920 / 2) - 100, 1080 / 2), Color.Black);
+            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "You died D:", new Vector2((1920 / 2) - 70, 1080 / 2), Color.White);
+            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "Press escape to quit", new Vector2((1920 / 2) - 100, (1080 / 2)+25), Color.White);
         }
 
         public override void Update(GameTime gameTime)

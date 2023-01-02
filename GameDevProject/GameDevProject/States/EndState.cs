@@ -17,8 +17,8 @@ namespace GameDevProject.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "You won!", new Vector2(1920 / 2, 1080 / 2), Color.Black);
-            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "Congratulations", new Vector2((1920 / 2)-25, (1080 / 2)+50), Color.Black);
+            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "You won! :D", new Vector2((1920 / 2)-25, 1080 / 2), Color.White);
+            spriteBatch.DrawString(_content.Load<SpriteFont>("Fonts/Font"), "Congratulations", new Vector2((1920 / 2)-25, (1080 / 2)+50), Color.White);
         }
 
         public override void Update(GameTime gameTime)

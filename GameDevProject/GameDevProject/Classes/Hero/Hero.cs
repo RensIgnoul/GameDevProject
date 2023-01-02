@@ -48,6 +48,7 @@ namespace GameDevProject.Classes.Hero
         HeroAnimationPicker _heroAnimationPicker;
         RangedAnimation _heroAnimationConfigurator;
         HeroAttackUpdate _heroAttackUpdate;
+        internal HeroBlock heroBlock;
 
         public bool Attackable { get; set; }
         public bool CanAttack { get; set; }
@@ -72,6 +73,7 @@ namespace GameDevProject.Classes.Hero
             _heroAnimationPicker = new HeroAnimationPicker(this);
             _heroAnimationConfigurator = new RangedAnimation(this);
             _heroAttackUpdate = new HeroAttackUpdate(this);
+            heroBlock = new HeroBlock(this);
             Projectiles = new List<Projectile>();
             Attackable = true;
             CanAttack = false;

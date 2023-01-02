@@ -43,15 +43,11 @@ namespace GameDevProject.Classes.Behaviour.Hero
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-                _hero.Attackable = false;
-                _hero.CanAttack = false;
-                _hero.Color = Color.Purple;
+                _hero.heroBlock.Block();
             }
             else
             {
-                _hero.Attackable = true;
-                _hero.CanAttack = true;
-                _hero.Color = Color.White;
+                _hero.heroBlock.StopBlock();
             }
 
         }
