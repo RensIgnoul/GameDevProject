@@ -39,17 +39,17 @@ namespace GameDevProject.Classes.Enemies
         {
             if (HitBox.TouchTopOf(newRectangle))
             {
-                HitBox/*.Y*/ = new Rectangle(HitBox.X,newRectangle.Y - (HitBox.Height + 1),HitBox.Width,HitBox.Height);
+                HitBox = new Rectangle(HitBox.X,newRectangle.Y - (HitBox.Height + 1),HitBox.Width,HitBox.Height);
             }
             if (HitBox.TouchLeftOf(newRectangle))
             {
                 directionModifier = -1;
-                Position/*.X*/ = new Vector2(Position.X - 15,Position.Y);
+                Position = new Vector2(Position.X - 15,Position.Y);
                 SpriteOrientation = SpriteEffects.FlipHorizontally;
             }
             if (HitBox.TouchRightOf(newRectangle))
-            {
-                Position/*.X*/ = new Vector2(Position.X + 10,Position.Y);
+            { 
+                Position = new Vector2(Position.X + 10,Position.Y);
                 directionModifier = 1;
 
                 SpriteOrientation = SpriteEffects.None;

@@ -57,6 +57,10 @@ namespace GameDevProject.Classes.LevelDesign
             {
                 tile.Draw(spriteBatch);
             }
+            foreach (var tile in finishTiles)
+            {
+                tile.Draw(spriteBatch);
+            }
         }
     }
 }

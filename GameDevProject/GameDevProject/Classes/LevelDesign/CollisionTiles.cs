@@ -17,11 +17,12 @@ namespace GameDevProject.Classes.LevelDesign
         {
             Position = new Vector2(x, y);
             texture = Content.Load<Texture2D>("TileSet/LevelOne/LevelOneTileSet");
+            var texture2 = Content.Load<Texture2D>("Pickups/PickUps");
             DestinationRectangle = newRectangle;
             switch (i)
             {
                 case 1:
-                    SourceRectangle = new Rectangle(130, 286, 18, 18);
+                    SourceRectangle = new Rectangle(131, 286, 18, 18);
                     break;
                 case 2:
                     SourceRectangle = new Rectangle(148, 286, 18, 18);
@@ -54,7 +55,7 @@ namespace GameDevProject.Classes.LevelDesign
                     SourceRectangle = new Rectangle(267, 351, 18, 18);
                     break;
                 case 12:
-                    SourceRectangle = new Rectangle(242, 350, 18, 18);
+                    SourceRectangle = new Rectangle(243, 350, 18, 18);
                     break;
                 case 13:
                     SourceRectangle = new Rectangle(259, 351, 18, 18);
@@ -69,19 +70,19 @@ namespace GameDevProject.Classes.LevelDesign
                     SourceRectangle = new Rectangle(127, 349, 17, 18);
                     break;
                 case 17:
-                    SourceRectangle = new Rectangle(126, 336, 18, 19);
+                    SourceRectangle = new Rectangle(127, 336, 18, 18);
                     break;
                 case 18:
-                    SourceRectangle = new Rectangle(242, 336, 19, 19);
+                    SourceRectangle = new Rectangle(243, 336, 19, 19);
                     break;
                 case 19:
                     SourceRectangle = new Rectangle(94, 286, 18, 18);
                     break;
                 case 20:
-                    SourceRectangle = new Rectangle(18, 402, 18, 18);
+                    SourceRectangle = new Rectangle(19, 403, 17, 17);
                     break;
                 case 21:
-                    SourceRectangle = new Rectangle(628, 130, 32, 32);
+                    SourceRectangle = new Rectangle(629, 131, 32, 32);
                     break;
                 case 22:
                     SourceRectangle = new Rectangle(835, 78, 32, 37);
@@ -114,7 +115,8 @@ namespace GameDevProject.Classes.LevelDesign
                     SourceRectangle = new Rectangle(804, 78, 37, 37);
                     break;
                 case 50:
-                    SourceRectangle = new Rectangle(0, 0, 16, 16);
+                    texture = texture2;
+                    SourceRectangle = new Rectangle(32, 16, 16, 16);
                     break;
 
             }

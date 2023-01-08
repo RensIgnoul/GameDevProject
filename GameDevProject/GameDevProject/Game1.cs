@@ -5,10 +5,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using GameDevProject.Classes;
-using GameDevProject.Classes.Enemies;
 using GameDevProject.Classes.Hero;
 using GameDevProject.Classes.LevelDesign;
-using GameDevProject.States;
 using GameDevProject.Interfaces;
 using GameDevProject.Classes.Factory;
 using GameDevProject.Classes.PickUp;
@@ -83,7 +81,7 @@ namespace GameDevProject
 
             hero = new Hero(_heroTexture, Content.Load<Texture2D>("Projectiles/energy_ball"));
 
-            unitsLevel1.Add(unitFactory.CreateUnit("CHARGER", 500, 0/*1300, 400*/, _chargerTexture));
+            unitsLevel1.Add(unitFactory.CreateUnit("CHARGER", 500, 0, _chargerTexture));
             unitsLevel1.Add(unitFactory.CreateUnit("RANGED", 650, 385, _rangedTexture, _arrowTexture));
             unitsLevel1.Add(unitFactory.CreateUnit("CHARGER", 350, 675, _chargerTexture));
             unitsLevel1.Add(unitFactory.CreateUnit("CHARGER", 1100, 825, _chargerTexture));

@@ -18,16 +18,16 @@ namespace GameDevProject.Classes.Enemies
         public bool isCharging;
         public float timer = 0;
         public ChargerAttack chargerAttack;
-        
+
         public ChargerEnemy(Texture2D texture, int x, int y) : base(texture, x, y)
         {
             isCharging = false;
             HitBox = new Rectangle((int)Position.X, (int)Position.Y, 50, 75);
-            chargerAttack = new ChargerAttack(this);     
+            chargerAttack = new ChargerAttack(this);
         }
         public override void Update(GameTime gameTime)
         {
-            HitBox = new Rectangle((int)Position.X + 75, (int)Position.Y + 75,HitBox.Width,HitBox.Height);
+            HitBox = new Rectangle((int)Position.X + 75, (int)Position.Y + 75, HitBox.Width, HitBox.Height);
 
             runningAnimation.Update(gameTime);
 
@@ -44,7 +44,7 @@ namespace GameDevProject.Classes.Enemies
         {
             if (Health > 0)
             {
-                spriteBatch.Draw(texture, Position, runningAnimation.CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), new Vector2(1.8f,1.8f/*2.5f, 2.5f*/), SpriteOrientation, 1);
+                spriteBatch.Draw(texture, Position, runningAnimation.CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), new Vector2(1.8f, 1.8f), SpriteOrientation, 1);
             }
         }
 

@@ -41,7 +41,7 @@ namespace GameDevProject.Classes.Behaviour.General
             }
             else if (_attacker is Enemies.RangedEnemy)
             {
-                newProjectile.Position = new Vector2((_attacker as RangedEnemy).Position.X + (_attacker as RangedEnemy).HitBox.Width, (_attacker as RangedEnemy).HitBox.Y /*+ (HitBox.Height / 10)*/) + newProjectile.Speed * 5;
+                newProjectile.Position = new Vector2((_attacker as RangedEnemy).Position.X + (_attacker as RangedEnemy).HitBox.Width, (_attacker as RangedEnemy).HitBox.Y) + newProjectile.Speed * 5;
             }
 
 
